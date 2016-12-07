@@ -1,0 +1,275 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
+	<ui:define name="content">
+		<p:growl id="messages"></p:growl>
+		<h1>#{listingController.title} Listing</h1>
+		<h:form>
+			<p:panelGrid style="width: 880px;">
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Street:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.address.street}"></p:inputText>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="City:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.address.city}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="State:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.address.state}"></p:inputText>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Zip Code:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.address.zipCode}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Price:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.price}"></p:inputText>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Home Type:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.houseType}"></p:inputText>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Bathrooms:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:spinner value="#{listingController.listing.baths}"
+							stepFactor="0.5" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Bedrooms:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:spinner value="#{listingController.listing.bedrooms}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Square Feet:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listing.squareFeet}"></p:inputText>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Agent:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{listingController.agentId}"
+							style="width: 225px;">
+							<f:selectItem itemLabel="Select Agent" itemValue="" />
+							<f:selectItems value="#{listingController.agents}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+				</p:row>
+				<p:row>
+					<p:column colspan="1">
+						<p:outputLabel value="Overview:"></p:outputLabel>
+					</p:column>
+					<p:column colspan="3">
+						<p:inputTextarea
+							value="#{listingController.listingDetail.overview}"
+							style="max-height: 100px;" cols="73" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Master Bedroom:"></p:outputLabel>
+					</p:column>
+					<p:column colspan="3">
+						<p:inputText
+							value="#{listingController.listingDetail.masterBedroom}"
+							size="70" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Full Bathrooms:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:spinner
+							value="#{listingController.listingDetail.fullBathrooms}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Half Bathrooms:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:spinner
+							value="#{listingController.listingDetail.halfBathrooms}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Dine In Kitchen:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectBooleanButton
+							value="#{listingController.listingDetail.diningKitchen}"
+							onLabel="Yes" offLabel="No" style="width:60px" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Dining Room:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectBooleanButton
+							value="#{listingController.listingDetail.diningRoom}"
+							onLabel="Yes" offLabel="No" style="width:60px" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Stories:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:spinner value="#{listingController.listingDetail.stories}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Exterior:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listingDetail.exterior}" />
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Parking:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listingDetail.parking}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Status:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:selectOneMenu value="#{listingController.listingDetail.status}"
+							style="width: 225px;">
+							<f:selectItem itemLabel="Select Status" itemValue="" />
+							<f:selectItems value="#{listingController.statusItems}" />
+						</p:selectOneMenu>
+					</p:column>
+				</p:row>
+				<p:row>
+					<p:column>
+						<p:outputLabel value="Style:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listingDetail.style}" />
+					</p:column>
+					<p:column>
+						<p:outputLabel value="School District:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText value="#{listingController.listingDetail.schoolDistrict}" />
+					</p:column>
+				</p:row>
+			</p:panelGrid>
+			<div>
+				<p:panelGrid style="display: inline-block; margin-top: 20px;"
+					id="featureGrid">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="3">
+								<p:outputLabel value="Exterior Features"></p:outputLabel>
+							</p:column>
+						</p:row>
+					</f:facet>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Feature: " />
+						</p:column>
+						<p:column>
+							<p:inputText value="#{listingController.exteriorFeature}" />
+						</p:column>
+						<p:column>
+							<p:commandButton icon="fa fa-plus" value="Add"
+								action="#{listingController.addFeature}"
+								update="features featureGrid" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<p:panelGrid
+					style="display: inline-block; margin-top: 20px; max-width: 200px;"
+					id="roomsGrid">
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="3">
+								<p:outputLabel value="Other Rooms"></p:outputLabel>
+							</p:column>
+						</p:row>
+					</f:facet>
+					<p:row>
+						<p:column>
+							<p:outputLabel value="Room: " />
+						</p:column>
+						<p:column>
+							<p:inputText value="#{listingController.room}" />
+						</p:column>
+						<p:column>
+							<p:commandButton icon="fa fa-plus" value="Add"
+								action="#{listingController.addRoom}" update="rooms roomsGrid" />
+						</p:column>
+					</p:row>
+				</p:panelGrid>
+				<div>
+					<p:dataTable id="features"
+						style="display: inline-block; max-width: 445px; vertical-align: top"
+						value="#{listingController.listingDetail.exteriorFeatures}"
+						var="feature">
+						<p:column> #{feature.name} </p:column>
+						<p:column>
+							<p:commandButton icon="fa fa-times"
+								action="#{listingController.removeFeature}" update="features">
+								<f:setPropertyActionListener value="#{feature}"
+									target="#{listingController.featureToRemove}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+					<p:dataTable id="rooms"
+						style="display: inline-block; max-width: 435px; vertical-align: top;"
+						value="#{listingController.listingDetail.otherRooms}"
+						var="otherRoom">
+						<p:column> #{otherRoom.name} </p:column>
+						<p:column>
+							<p:commandButton icon="fa fa-times"
+								action="#{listingController.removeRoom}" update="rooms">
+								<f:setPropertyActionListener value="#{otherRoom}"
+									target="#{listingController.roomToRemove}" />
+							</p:commandButton>
+						</p:column>
+					</p:dataTable>
+				</div>
+			</div>
+
+			<p:commandButton value="Update" action="#{listingController.edit}"
+				update="messages" rendered="#{!listingController.newListing}"></p:commandButton>
+			<p:commandButton value="Save" action="#{listingController.save}"
+				update="messages" rendered="#{listingController.newListing}"></p:commandButton>
+			<p:commandButton value="Back" style="margin-left: 702px;"
+				action="#{listingController.back}" ajax="false" />
+		</h:form>
+		<br />
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:util="http://www.springframework.org/schema/util"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd 
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context  http://www.springframework.org/schema/context/spring-context-3.2.xsd 
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/cache http://www.springframework.org/schema/cache/spring-cache.xsd">
+	<!-- Enable Spring Annotation Configuration -->
+	<context:annotation-config />
+	
+	<!-- Enable Caching -->
+	<cache:annotation-driven cache-manager="myCacheManager"/>
+	
+	<bean id="myCacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<property name="caches">
+			<set>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="listingList" />
+				</bean>
+			</set>
+		</property>
+	</bean>
+	
+	<!-- Add a validator -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+    	<qualifier value="validator"/>
+	</bean>
+	
+	<!-- Scan for all of Spring components such as Spring Service -->
+	<context:component-scan base-package="net.tralfamadore"></context:component-scan>
+	
+	<!-- Necessary to get the entity manager injected into the factory bean -->
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
+	
+	<!-- Define EclipseLink JPA Vendor Adapter -->
+	<!-- 
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.EclipseLinkJpaVendorAdapter">
+		<property name="databasePlatform"
+			value="org.eclipse.persistence.platform.database.MySQLPlatform" />
+		<property name="generateDdl" value="false" />
+		<property name="showSql" value="true" />
+	</bean>
+	-->
+	<!-- Define Hibernate JPA Vendor Adapter -->
+	<bean id="jpaVendorAdapter"
+		class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+		<property name="databasePlatform"
+			value="org.hibernate.dialect.MySQLDialect" />
+	</bean>
+	
+	<!-- Entity Manager Factory -->
+	<bean id="entityManagerFactory"
+		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
+		<property name="persistenceUnitName" value="jpa-persistence"></property>
+		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+	</bean>
+	
+	<!-- Transaction Manager -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory" />
+	</bean>
+
+	<!-- Detect @Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManager" />
+	
+	<!-- Mail -->
+	<bean class="org.springframework.mail.javamail.JavaMailSenderImpl"
+		id="mailSender">
+		<property name="host" value="localhost" />
+		<property name="protocol" value="smtp" />
+		<property name="port" value="2525" />
+		<property name="username" value="test" />
+		<property name="password" value="test" />
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+</beans>

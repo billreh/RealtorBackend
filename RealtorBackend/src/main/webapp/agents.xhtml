@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
+	<ui:define name="content">
+		<h1 class="page-header ">Agents</h1>
+		<hr />
+		<h:form id="form">
+			<p:dataTable var="agent" value="#{agentController.agents}"
+				style="max-width: 900px;" selectionMode="single"
+				selection="#{agentController.agent}" rowKey="#{agent.id}"
+				id="agentList">
+				<p:ajax event="rowSelect" update=":form:agentDetail"
+					oncomplete="PF('agentDialog').show()" />
+				<p:column headerText="Id">
+					<p:outputLabel>#{agent.id}</p:outputLabel>
+				</p:column>
+				<p:column headerText="First Name">
+					<p:outputLabel>#{agent.firstName}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Last Name">
+					<p:outputLabel>#{agent.lastName}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Contact Number">
+					<p:outputLabel>#{agent.contactNumber}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Email">
+					<p:outputLabel>#{agent.email}</p:outputLabel>
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{agentController.addAgent}" ajax="false"
+				style="float: left; margin: 10px;"/>
+
+			<p:dialog header="Agent Info" widgetVar="agentDialog"
+				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="agentDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty agentController.agent}"
+						columnClasses="label,value">
+						<h:outputText value="Id:" />
+						<h:outputText value="#{agentController.agent.id}" />
+
+						<h:outputText value="Name: " />
+						<h:outputText value="#{agentController.agent.firstName}" />
+
+						<h:outputText value="Hire Date: " />
+						<h:outputText value="#{agentController.agent.lastName}" />
+
+						<h:outputText value="Salary: " />
+						<h:outputText value="#{agentController.agent.contactNumber}" />
+
+						<h:outputText value="Salary: " />
+						<h:outputText value="#{agentController.agent.email}" />
+
+					</p:panelGrid>
+					<div>
+						<p:commandButton value="Edit" icon="fa fa-fw fa-edit"
+							action="#{agentController.gotoEdit}" ajax="false"
+							style="float: left; margin: 10px;"/>
+						<p:commandButton value="Delete" icon="fa fa-fw fa-remove"
+							action="#{agentController.remove}" update=":form:agentList"
+							onclick="PF('agentDialog').hide()"
+							style="float: right; margin: 10px;" />
+					</div>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

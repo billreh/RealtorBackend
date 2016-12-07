@@ -1,0 +1,83 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
+	<ui:define name="content">
+		<h1 class="page-header ">Listings</h1>
+		<hr />
+		<h:form id="form">
+			<p:dataTable var="listing" value="#{listingController.listings}"
+				style="max-width: 1200px;" selectionMode="single"
+				selection="#{listingController.listing}" rowKey="#{listing.id}"
+				id="listingList">
+				<p:ajax event="rowSelect" update=":form:listingDetail"
+					oncomplete="PF('listingDialog').show()" />
+				<p:column headerText="Address">
+					<p:outputLabel>#{listing.address.street} #{listing.address.city} #{listing.address.state} #{listing.address.zipCode}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Price">
+					<p:outputLabel>$#{listing.price}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Type">
+					<p:outputLabel>#{listing.houseType}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Bedrooms">
+					<p:outputLabel>#{listing.bedrooms}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Bathrooms">
+					<p:outputLabel>#{listing.baths}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Square Feet">
+					<p:outputLabel>#{listing.squareFeet}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Agent">
+					<p:outputLabel>#{listing.agent.firstName} #{listing.agent.lastName}</p:outputLabel>
+				</p:column>
+			</p:dataTable>
+			<p:commandButton value="Add" icon="fa fa-fw fa-plus" action="#{listingController.addListing}" ajax="false"
+				style="float: left; margin: 10px;"/>
+
+			<p:dialog header="Listing Info" widgetVar="listingDialog" modal="true"
+				showEffect="fade" hideEffect="fade" resizable="false">
+				<p:outputPanel id="listingDetail" style="text-align:center;">
+					<p:panelGrid columns="2"
+						rendered="#{not empty listingController.listing}"
+						columnClasses="label,value">
+						<h:outputText value="Address: " />
+						<h:outputText value="#{listingController.listing.address.street} #{listingController.listing.address.city} 
+								#{listingController.listing.address.state} #{listingController.listing.address.zipCode}" />
+
+						<h:outputText value="Price: " />
+						<h:outputText value="$#{listingController.listing.price}" />
+
+						<h:outputText value="Type: " />
+						<h:outputText value="#{listingController.listing.houseType}" />
+
+						<h:outputText value="Bedrooms: " />
+						<h:outputText value="#{listingController.listing.bedrooms}" />
+
+						<h:outputText value="Bathrooms: " />
+						<h:outputText value="#{listingController.listing.baths}" />
+
+						<h:outputText value="Square Feet: " />
+						<h:outputText value="#{listingController.listing.squareFeet}" />
+
+						<h:outputText value="Agent: " />
+						<h:outputText value="#{listingController.listing.agent.firstName} #{listingController.listing.agent.lastName}" />
+
+					</p:panelGrid>
+					<div>
+						<p:commandButton value="Edit" icon="fa fa-fw fa-edit"
+							action="#{listingController.gotoEdit}" ajax="false"
+							style="float: left; margin: 10px;" />
+						<p:commandButton value="Delete" icon="fa fa-fw fa-remove"
+							action="#{listingController.delete}" update=":form:listingList"
+							onclick="PF('listingDialog').hide()"
+							style="float: right; margin: 10px;" />
+					</div>
+				</p:outputPanel>
+			</p:dialog>
+		</h:form>
+	</ui:define>
+</ui:composition>

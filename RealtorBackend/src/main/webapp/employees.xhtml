@@ -1,0 +1,64 @@
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<script name="jquery/jquery.js" library="primefaces"></script>
+	<title>Employee List</title>
+</h:head>
+<h:form id="form">
+	<p:dataTable var="employee" value="#{employeeController.employees}"
+		style="max-width: 900px;" selectionMode="single"
+		selection="#{employeeController.employee}" rowKey="#{employee.id}"
+		id="employeeList">
+		<p:ajax event="rowSelect" update=":form:employeeDetail"
+			oncomplete="PF('employeeDialog').show()" />
+		<p:column headerText="Id">
+			<p:outputLabel>#{employee.id}</p:outputLabel>
+		</p:column>
+		<p:column headerText="Name">
+			<p:outputLabel>#{employee.name}</p:outputLabel>
+		</p:column>
+		<p:column headerText="Hire Date">
+			<p:outputLabel>#{employee.hireDate}</p:outputLabel>
+		</p:column>
+		<p:column headerText="Salary">
+			<p:outputLabel>#{employee.salary}</p:outputLabel>
+		</p:column>
+	</p:dataTable>
+	<p:link href="index.xhtml">Add Employee</p:link>
+
+	<p:dialog header="Employee Info" widgetVar="employeeDialog"
+		modal="true" showEffect="fade" hideEffect="fade" resizable="false">
+		<p:outputPanel id="employeeDetail" style="text-align:center;">
+			<p:panelGrid columns="2"
+				rendered="#{not empty employeeController.employee}"
+				columnClasses="label,value">
+				<h:outputText value="Id:" />
+				<h:outputText value="#{employeeController.employee.id}" />
+
+				<h:outputText value="Name: " />
+				<h:outputText value="#{employeeController.employee.name}" />
+
+				<h:outputText value="Hire Date: " />
+				<h:outputText value="#{employeeController.employee.hireDate}" />
+
+				<h:outputText value="Salary: " />
+				<h:outputText value="#{employeeController.employee.salary}" />
+
+			</p:panelGrid>
+			<div>
+				<p:commandButton value="Edit" icon="fa fa-fw fa-edit"
+					action="#{employeeController.gotoEdit}" ajax="false"
+					style="float: left; margin: 10px;" />
+				<p:commandButton value="Delete" icon="fa fa-fw fa-remove"
+					action="#{employeeController.remove}" update=":form:employeeList"
+					onclick="PF('employeeDialog').hide()"
+					style="float: right; margin: 10px;" />
+			</div>
+		</p:outputPanel>
+	</p:dialog>
+</h:form>
+</html>
