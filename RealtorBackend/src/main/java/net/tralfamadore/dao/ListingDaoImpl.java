@@ -67,6 +67,8 @@ public class ListingDaoImpl implements ListingDao {
 		l.setHouseType(listing.getHouseType());
 		l.setPrice(listing.getPrice());
 		l.setSquareFeet(listing.getSquareFeet());
+		l.setMainPhoto(listing.getMainPhoto());
+		l.setPhotos(listing.getPhotos());
 		em.merge(l);
 	}
 

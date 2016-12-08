@@ -30,6 +30,11 @@ public class Photo {
 
 	public Photo() {
 	}
+	
+	public Photo(Listing listing, String name) {
+		this.listing = listing;
+		this.name = name;
+	}
 
 	public Long getId() {
 		return this.id;

@@ -1,0 +1,46 @@
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
+	<ui:define name="content">
+		<p:growl id="messages"></p:growl>
+		<h1>Manage Photos</h1>
+		<h:form>
+			<p:panelGrid columns="3" style="max-width: 700px;" id="mainPhoto">
+				<f:facet name="header">
+					Main Photo
+				</f:facet>
+			#{photoController.listing.mainPhoto}: 
+			<p:graphicImage name="#{photoController.listing.mainPhoto}" library="img/#{photoController.listing.id}" style="height: 70px;"
+					rendered="#{photoController.hasMainPhoto}"/>
+			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.mainPhotoUpload}" multiple="false" update="mainPhoto"/>
+			</p:panelGrid>
+			<div style="height: 50px;"/>
+			<p:dataTable value="#{photoController.listing.photos}" var="photo" style="max-width: 700px;" id="photos">
+				<f:facet name="header">
+					Photos
+				</f:facet>
+				<p:column>
+					#{photo.name}
+				</p:column>
+				<p:column>
+					<p:graphicImage name="#{photo.name}" library="img/#{photoController.listing.id}" style="height: 70px;"/>
+				</p:column>
+				<p:column>
+					<p:commandButton icon="fa fa-times" action="#{photoController.removePhoto}" update="photos">
+						<f:setPropertyActionListener value="#{photo}" target="#{photoController.photoToRemove}" />
+					</p:commandButton>
+				</p:column>
+			</p:dataTable>
+			<p:panelGrid columns="1" style="max-width: 700px;">
+				<f:facet name="header">
+					Add Photo
+				</f:facet>
+			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.fileUploadListener}" multiple="false" update="photos"/>
+			</p:panelGrid>
+		</h:form>
+		<br />
+	</ui:define>
+</ui:composition>

@@ -262,9 +262,14 @@
 					</p:dataTable>
 				</div>
 			</div>
+			
+			<div style="height: 20px;"/>
 
 			<p:commandButton value="Update" action="#{listingController.edit}"
 				update="messages" rendered="#{!listingController.newListing}"></p:commandButton>
+			<p:commandButton value="Manage Photos" action="managePhotos">
+				<f:setPropertyActionListener value="#{listingController.listing.id}" target="#{photoController.listingId}"/>
+			</p:commandButton>
 			<p:commandButton value="Save" action="#{listingController.save}"
 				update="messages" rendered="#{listingController.newListing}"></p:commandButton>
 			<p:commandButton value="Back" style="margin-left: 702px;"

@@ -18,13 +18,8 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.primefaces.event.FileUploadEvent;
-import org.primefaces.model.DefaultStreamedContent;
-import org.primefaces.model.StreamedContent;
-import org.primefaces.model.UploadedFile;
 
 import net.tralfamadore.domain.Address;
 import net.tralfamadore.domain.Agent;
@@ -32,14 +27,12 @@ import net.tralfamadore.domain.ExteriorFeature;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.ListingDetail;
 import net.tralfamadore.domain.OtherRoom;
-import net.tralfamadore.domain.Photo;
 import net.tralfamadore.service.AgentService;
 import net.tralfamadore.service.ListingService;
 
 @ManagedBean
 @SessionScoped
 @Controller
-@PropertySource("classpath:META-INF/images.properties")
 public class ListingController {
 	private static Logger log = Logger.getLogger(ListingController.class);
 	
@@ -131,8 +124,6 @@ public class ListingController {
 
 	@Cacheable(value = { "listingList" })
 	public List<Listing> getListings() {
-		// this is cached, so we don't mind banging on the service
-		log.info(env.getProperty("remote.base"));
 		return listingService.getListings();
 	}
 
