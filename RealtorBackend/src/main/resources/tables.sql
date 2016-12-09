@@ -78,6 +78,13 @@ create table other_room (
 	foreign key(listing_detail_id) references listing_detail(id)
 );
 
+create table featured_listing (
+	id bigint not null auto_increment,
+	listing_id bigint,
+	primary key(id),
+	FOREIGN KEY (listing_id) REFERENCES listing(id)
+);
+
 insert into address values(NULL, '534 Queen St.', 'Philadelphia', 'PA', '19147');
 insert into agent values(NULL, 'Bob', 'Parker', '(215)555-1212', 'bparker@gmail.com');
 insert into listing values(NULL, 1, 1, 500000, 'Single Family Home', 2.5, 3, 1732);

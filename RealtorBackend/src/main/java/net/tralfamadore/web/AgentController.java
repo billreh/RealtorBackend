@@ -109,14 +109,11 @@ public class AgentController {
 	private boolean validateAgent() {
 		// Check for validation errors
 		Set<ConstraintViolation<Agent>> violations = validator.validate(agent);
-		Iterator<ConstraintViolation<Agent>> itr = violations.iterator();
-		if(itr.hasNext()) {
-			while(itr.hasNext()) {
-				ConstraintViolation<Agent> violation = itr.next();
-				// Show validation errors on page
+		if(!violations.isEmpty()) {
+			violations.forEach(violation -> {
 				String msg = violation.getPropertyPath() + " " + violation.getMessage();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-			}		
+			});
 			return false;
 		}
 	

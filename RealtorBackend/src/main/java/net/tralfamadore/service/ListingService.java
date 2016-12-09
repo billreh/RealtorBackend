@@ -9,10 +9,12 @@ import org.springframework.stereotype.Service;
 
 import net.tralfamadore.dao.ListingDao;
 import net.tralfamadore.domain.ExteriorFeature;
+import net.tralfamadore.domain.FeaturedListing;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.ListingDetail;
 import net.tralfamadore.domain.OtherRoom;
 import net.tralfamadore.domain.Photo;
+import net.tralfamadore.dto.FeaturedListingDto;
 import net.tralfamadore.dto.ListingDetailDto;
 import net.tralfamadore.dto.ListingListDto;
 
@@ -33,14 +35,6 @@ public class ListingService {
 	
 	public void updateListing(Listing listing) {
 		listingDao.updateListing(listing);
-	}
-	
-	public List<ListingListDto> getListingListDtos() {
-		return getListings().stream().map(listing -> new ListingListDto(listing.getId(), listing.getAddress().getStreet(), listing.getAddress().getCity(),
-					listing.getAddress().getState(), listing.getAddress().getZipCode(), listing.getHouseType(), listing.getBedrooms(),
-					listing.getBaths(), listing.getSquareFeet(), listing.getPrice(), listing.getMainPhoto(),
-					listing.getPhotos().stream().map(Photo::getName).toArray(size -> new String[size])))
-				.collect(toList());
 	}
 	
 	public Listing getListing(long listingId) {
@@ -68,6 +62,26 @@ public class ListingService {
 		listingDao.deleteListingDetail(listingDetail);
 	}
 	
+	public List<FeaturedListing> getFeaturedListings() {
+		return listingDao.getFeaturedListings();
+	}
+	
+	public long saveFeaturedListing(FeaturedListing featuredListing) {
+		return listingDao.saveFeaturedListing(featuredListing);
+	}
+	
+	public void deleteFeaturedListing(FeaturedListing featuredListing) {
+		listingDao.deleteFeaturedListing(featuredListing);
+	}
+	
+	public List<ListingListDto> getListingListDtos() {
+		return getListings().stream().map(listing -> new ListingListDto(listing.getId(), listing.getAddress().getStreet(), listing.getAddress().getCity(),
+					listing.getAddress().getState(), listing.getAddress().getZipCode(), listing.getHouseType(), listing.getBedrooms(),
+					listing.getBaths(), listing.getSquareFeet(), listing.getPrice(), listing.getMainPhoto(),
+					listing.getPhotos().stream().map(Photo::getName).toArray(size -> new String[size])))
+				.collect(toList());
+	}
+	
 	public ListingDetailDto getListingDetailDto(long listingId) {
 		ListingDetail listingDetail = getListingDetail(listingId);
 				
@@ -82,5 +96,10 @@ public class ListingService {
 				listingDetail.getListing().getMainPhoto(),
 				listingDetail.getListing().getPhotos().stream().map(Photo::getName).toArray(size -> new String[size]),
 				listingDetail.getStatus(), listingDetail.getStyle(), listingDetail.getYearBuilt(), listingDetail.getSchoolDistrict());
+	}
+	
+	public List<FeaturedListingDto> getFeaturedListingDtos() {
+		List<FeaturedListing> featuredListings = listingDao.getFeaturedListings();
+		return featuredListings.stream().map(fl -> new FeaturedListingDto(fl.getListing().getId(), fl.getListing().getMainPhoto())).collect(toList());
 	}
 }

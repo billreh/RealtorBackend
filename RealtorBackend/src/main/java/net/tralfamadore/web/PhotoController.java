@@ -1,10 +1,14 @@
 package net.tralfamadore.web;
 
 import java.io.File;
+import java.io.IOException;
 import java.nio.file.Files;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
@@ -67,21 +71,40 @@ public class PhotoController {
 		return listing.getMainPhoto() != null && !listing.getMainPhoto().isEmpty();
 	}
 	
+	public void back() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+		try {
+			response.sendRedirect("editListing.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public void mainPhotoUpload(FileUploadEvent event) {
 		String imgName = copyPhoto(event);
 		listing.setMainPhoto(imgName);
 		listingService.updateListing(listing);
+		// Add message
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Photo saved"));
 	}
 
 	public void fileUploadListener(FileUploadEvent event) {
 		String imgName = copyPhoto(event);
 		listing.getPhotos().add(new Photo(listing, imgName));
 		listingService.updateListing(listing);
+		// Add message
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Photo saved"));
 	}
 	
 	public void removePhoto() {
 		listing.getPhotos().removeIf(p -> p.getId() == photoToRemove.getId());
 		listingService.updateListing(listing);
+		// Add message
+		FacesContext.getCurrentInstance().addMessage(null,
+				new FacesMessage("Photo removed"));
 	}
 	
 	private String copyPhoto(FileUploadEvent event) {

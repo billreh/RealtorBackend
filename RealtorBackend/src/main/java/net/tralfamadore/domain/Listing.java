@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
 
 @Entity
 @Table
@@ -21,24 +23,37 @@ public class Listing {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "address_id", referencedColumnName = "id")
 	private Address address;
+	
 	@Column
+	@DecimalMin(value = "1000")
 	private int price;
+	
 	@Column(name = "house_type")
 	private String houseType;
+	
 	@Column(name = "bathrooms")
 	private float baths;
+	
 	@Column
+	@DecimalMin(value = "1")
 	private int bedrooms;
+	
+	@DecimalMin(value = "100")
 	@Column(name = "square_feet")
 	private int squareFeet;
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "agent_id", referencedColumnName = "id")
+	@NotNull
 	private Agent agent;
+	
 	@Column(name = "main_photo")
 	private String mainPhoto;
+	
 	@OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn(name = "listing_id", referencedColumnName = "id")
 	private List<Photo> photos;

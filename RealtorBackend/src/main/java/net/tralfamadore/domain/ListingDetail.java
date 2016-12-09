@@ -12,6 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.DecimalMin;
 
 @Entity
 @Table(name = "listing_detail")
@@ -42,6 +43,7 @@ public class ListingDetail {
 	@JoinColumn(name = "listing_detail_id", referencedColumnName = "id")
 	private List<OtherRoom> otherRooms;
 	@Column
+	@DecimalMin(value = "1")
 	private int stories;
 	@Column
 	private String exterior;

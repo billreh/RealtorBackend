@@ -19,6 +19,7 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import net.tralfamadore.domain.Agent;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.dto.ContactAgentDto;
+import net.tralfamadore.dto.FeaturedListingDto;
 import net.tralfamadore.dto.ListingDetailDto;
 import net.tralfamadore.dto.ListingListDto;
 import net.tralfamadore.dto.ServerResponse;
@@ -65,4 +66,10 @@ public class RealtyRestController {
 		}
 		return new ServerResponse("OK", 200, "OK");
 	}
+    
+    @CrossOrigin
+    @GetMapping("/featured-listings")
+    public @ResponseBody List<FeaturedListingDto> getFeaturedListings() {
+    	return listingService.getFeaturedListingDtos();
+    }
 }

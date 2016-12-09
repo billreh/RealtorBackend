@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import net.tralfamadore.domain.ExteriorFeature;
+import net.tralfamadore.domain.FeaturedListing;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.ListingDetail;
 
@@ -133,5 +134,23 @@ public class ListingDaoImpl implements ListingDao {
 	@Transactional
 	public void deleteListingDetail(ListingDetail listingDetail) {
 		em.remove(em.contains(listingDetail) ? listingDetail : em.merge(listingDetail));
+	}
+	
+	@Override
+	public List<FeaturedListing> getFeaturedListings() {
+		return em.createQuery("from FeaturedListing", FeaturedListing.class).getResultList();
+	}
+
+	@Override
+	@Transactional
+	public long saveFeaturedListing(FeaturedListing featuredListing) {
+		em.persist(featuredListing);
+		return featuredListing.getId();
+	}
+
+	@Override
+	@Transactional
+	public void deleteFeaturedListing(FeaturedListing featuredListing) {
+		em.remove(em.contains(featuredListing) ? featuredListing : em.merge(featuredListing));
 	}
 }

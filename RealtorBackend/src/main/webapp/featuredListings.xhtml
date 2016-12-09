@@ -1,0 +1,64 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
+	<ui:define name="content">
+		<p:growl id="messages"></p:growl>
+		<h1>Featured Listings</h1>
+		<h:form id="form">
+			<div style="max-width: 1200px;">
+				<p:fieldset id="featuredListings" legend="Featured Listings">
+					<p:outputPanel id="dropArea">
+						<p:dataTable value="#{featuredListingController.featuredListings}" var="featuredListing" id="fl">
+							<p:column headerText="Listing">
+								#{featuredListing.listing.address.street} #{featuredListing.listing.address.city} #{featuredListing.listing.address.state} 
+							</p:column>
+							<p:column headerText="Price">
+								<p:outputLabel>$#{featuredListing.listing.price}</p:outputLabel>
+							</p:column>
+							<p:column headerText="Agent">
+								<p:outputLabel>#{featuredListing.listing.agent.firstName} #{featuredListing.listing.agent.lastName}</p:outputLabel>
+							</p:column>
+							<p:column headerText="Remove">
+								<p:commandButton icon="fa fa-times" action="#{featuredListingController.removeListing}" update="form">
+									<f:setPropertyActionListener value="#{featuredListing}" target="#{featuredListingController.listingToRemove}" />
+								</p:commandButton>
+							</p:column>
+						</p:dataTable>
+					</p:outputPanel>
+				</p:fieldset>
+			</div>
+			
+			<p:fieldset id="listings" legend="Listings">
+			<p:dataTable var="listing" value="#{listingController.listings}"
+				style="max-width: 1200px;" selectionMode="single"
+				selection="#{listingController.listing}" rowKey="#{listing.id}"
+				id="listingList">
+				<f:facet name="header">
+					Listings
+				</f:facet>
+				<p:column style="width:40px">
+	                <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
+	                <p:draggable for="dragIcon" revert="true" helper="clone"/>
+	                <p:tooltip for="dragIcon" value="Drag Me"/>
+	            </p:column>
+				<p:column headerText="Address">
+					<p:outputLabel>#{listing.address.street} #{listing.address.city}, #{listing.address.state}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Price">
+					<p:outputLabel>$#{listing.price}</p:outputLabel>
+				</p:column>
+				<p:column headerText="Agent">
+					<p:outputLabel>#{listing.agent.firstName} #{listing.agent.lastName}</p:outputLabel>
+				</p:column>
+			</p:dataTable>
+			</p:fieldset>
+			
+			<p:droppable for="featuredListings" tolerance="touch" activeStyleClass="ui-state-highlight" datasource="listingList">
+		        <p:ajax listener="#{featuredListingController.dropEvent}" update="dropArea" />
+		    </p:droppable>
+		</h:form>
+		<br />
+	</ui:define>
+</ui:composition>

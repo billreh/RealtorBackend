@@ -1,9 +1,10 @@
 package net.tralfamadore.web;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,6 +13,7 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
@@ -60,6 +62,7 @@ public class ListingController {
 	private ExteriorFeature featureToRemove;
 	private OtherRoom roomToRemove;
 	private boolean newListing = false;
+	private boolean notNew = false;
 	
 	@PostConstruct
 	public void init() {
@@ -148,6 +151,8 @@ public class ListingController {
 	}
 	
 	public String getAgentId() {
+		if(listing.getAgent() == null || listing.getAgent().getId() == null)
+			return "";
 		return listing.getAgent().getId().toString();
 	}
 	
@@ -171,6 +176,14 @@ public class ListingController {
 		return newListing;
 	}
 	
+	public boolean isNotNew() {
+		return notNew;
+	}
+
+	public void setNotNew(boolean notNew) {
+		this.notNew = notNew;
+	}
+
 	public void addListing() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
@@ -183,6 +196,7 @@ public class ListingController {
 		listingDetail.setOtherRooms(new ArrayList<>());
 		title = "Add";
 		newListing = true;
+		notNew = false;
 		try {
 			response.sendRedirect("editListing.xhtml");
 		} catch (IOException e) {
@@ -192,12 +206,25 @@ public class ListingController {
 	
 	public void gotoEdit() {
 		newListing = false;
+		notNew = true;
 		title = "Edit";
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
 		listingDetail = listingService.getListingDetail(listing.getId());
 		try {
 			response.sendRedirect("editListing.xhtml");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void back() {
+		FacesContext context = FacesContext.getCurrentInstance();
+		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+		listing = new Listing();
+		listingDetail = new ListingDetail();
+		try {
+			response.sendRedirect("listings.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -217,11 +244,16 @@ public class ListingController {
 	
 	@CacheEvict(value = { "listingList" }, allEntries = true, beforeInvocation = true)
 	public void save() {
+		if(!validateListing())
+			return;
 		Agent agent = agentService.getAgent(new Long(agentId));
 		listing.setAgent(agent);
 		listingService.saveListing(listing);
 		listingDetail.setListing(listing);
 		listingService.saveListingDetail(listingDetail);
+		notNew = true;
+		newListing = false;
+		title = "Edit";
 		
 		// show update message
 		FacesContext.getCurrentInstance().addMessage(null,
@@ -234,5 +266,42 @@ public class ListingController {
 		listingService.deleteListingDetail(listingDetail);
 		listing.setAgent(null);
 		listingService.deleteListing(listing);
+	}
+	
+	private boolean validateListing() {
+		// Check for validation errors
+		Set<ConstraintViolation<Address>> violations = validator.validate(listing.getAddress());
+		if(!violations.isEmpty()) {
+			violations.forEach(violation -> {
+				String msg = violation.getPropertyPath() + " " + violation.getMessage();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
+			});
+			return false;
+		}
+		
+		if(agentId == null || agentId.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You must specify an agent"));
+			return false;
+		}
+		
+		Set<ConstraintViolation<Listing>> listingViolations = validator.validate(listing);
+		if(!listingViolations.isEmpty()) {
+			listingViolations.forEach(violation -> {
+				String msg = violation.getPropertyPath() + " " + violation.getMessage();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
+			});
+			return false;
+		}
+		
+		Set<ConstraintViolation<ListingDetail>> listingDetailViolations = validator.validate(listingDetail);
+		if(!listingDetailViolations.isEmpty()) {
+			listingDetailViolations.forEach(violation -> {
+				String msg = violation.getPropertyPath() + " " + violation.getMessage();
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
+			});
+			return false;
+		}
+	
+		return true;
 	}
 }

@@ -40,6 +40,9 @@
 				</f:facet>
 			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.fileUploadListener}" multiple="false" update="photos"/>
 			</p:panelGrid>
+			<div style="height: 20px"/>
+			<p:commandButton value="Back"
+				action="#{photoController.back}" ajax="false" />
 		</h:form>
 		<br />
 	</ui:define>

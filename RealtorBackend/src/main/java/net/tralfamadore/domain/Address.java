@@ -5,8 +5,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Entity
 @Table
@@ -15,12 +16,24 @@ public class Address {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
+	
 	@Column
+	@NotNull
+	@Size(min = 5, max = 50)
 	private String street;
+	
 	@Column
+	@NotNull
+	@Size(min = 3, max = 50)
 	private String city;
+	
 	@Column
+	@NotNull
+	@Size(min = 2, max = 2)
 	private String state;
+	
+	@NotNull
+	@Size(min = 5, max = 5)
 	@Column(name = "zip_code")
 	private String zipCode;
 	

@@ -14,7 +14,7 @@
 				<p:ajax event="rowSelect" update=":form:listingDetail"
 					oncomplete="PF('listingDialog').show()" />
 				<p:column headerText="Address">
-					<p:outputLabel>#{listing.address.street} #{listing.address.city} #{listing.address.state} #{listing.address.zipCode}</p:outputLabel>
+					<p:outputLabel>#{listing.address.street} #{listing.address.city}, #{listing.address.state} #{listing.address.zipCode}</p:outputLabel>
 				</p:column>
 				<p:column headerText="Price">
 					<p:outputLabel>$#{listing.price}</p:outputLabel>

@@ -6,6 +6,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
 
+import net.tralfamadore.domain.FeaturedListing;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.ListingDetail;
 
@@ -27,5 +28,11 @@ public interface ListingDao {
 	
 	long saveListingDetail(ListingDetail listingDetail);
 	
-	public void deleteListingDetail(ListingDetail listingDetail);
+	void deleteListingDetail(ListingDetail listingDetail);
+
+	List<FeaturedListing> getFeaturedListings();
+
+	long saveFeaturedListing(FeaturedListing featuredListing);
+
+	void deleteFeaturedListing(FeaturedListing featuredListing);
 }

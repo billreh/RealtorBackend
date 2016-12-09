@@ -6,7 +6,8 @@
 	<ui:define name="content">
 		<p:growl id="messages"></p:growl>
 		<h1>#{listingController.title} Listing</h1>
-		<h:form>
+		<h:form id="form">
+		<div style="max-width: 880px;">
 			<p:panelGrid style="width: 880px;">
 				<p:row>
 					<p:column>
@@ -41,7 +42,7 @@
 						<p:outputLabel value="Price:"></p:outputLabel>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.price}"></p:inputText>
+						<p:inputText id="price" value="#{listingController.listing.price}"></p:inputText>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Home Type:"></p:outputLabel>
@@ -99,10 +100,14 @@
 					<p:column>
 						<p:outputLabel value="Master Bedroom:"></p:outputLabel>
 					</p:column>
-					<p:column colspan="3">
-						<p:inputText
-							value="#{listingController.listingDetail.masterBedroom}"
-							size="70" />
+					<p:column>
+						<p:inputText value="#{listingController.listingDetail.masterBedroom}"/>
+					</p:column>
+					<p:column>
+						<p:outputLabel value="Year Built:"></p:outputLabel>
+					</p:column>
+					<p:column>
+						<p:inputText id="yearBuilt" value="#{listingController.listingDetail.yearBuilt}"/>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -264,16 +269,18 @@
 			</div>
 			
 			<div style="height: 20px;"/>
-
-			<p:commandButton value="Update" action="#{listingController.edit}"
-				update="messages" rendered="#{!listingController.newListing}"></p:commandButton>
-			<p:commandButton value="Manage Photos" action="managePhotos">
+			<p:commandButton value="Manage Photos" action="managePhotos" rendered="#{listingController.notNew}" id="managePhotos">
 				<f:setPropertyActionListener value="#{listingController.listing.id}" target="#{photoController.listingId}"/>
 			</p:commandButton>
-			<p:commandButton value="Save" action="#{listingController.save}"
-				update="messages" rendered="#{listingController.newListing}"></p:commandButton>
-			<p:commandButton value="Back" style="margin-left: 702px;"
+			<div style="height: 20px;"/>
+
+			<p:commandButton value="Back"
 				action="#{listingController.back}" ajax="false" />
+			<p:commandButton value="Update" action="#{listingController.edit}" style="float: right;"
+				update="messages" rendered="#{!listingController.newListing}" id="updateButton"></p:commandButton>
+			<p:commandButton value="Save" action="#{listingController.save}" style="float: right;"
+				update="messages form" rendered="#{listingController.newListing}" id="save"></p:commandButton>
+			</div>
 		</h:form>
 		<br />
 	</ui:define>
