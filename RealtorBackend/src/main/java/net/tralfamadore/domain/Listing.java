@@ -17,7 +17,7 @@ import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Table
+@Table(name = "listing")
 public class Listing {
 	@Column
 	@Id

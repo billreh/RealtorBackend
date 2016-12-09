@@ -18,7 +18,7 @@ import javax.validation.constraints.Size;
 import org.hibernate.validator.constraints.Email;
 
 @Entity
-@Table
+@Table(name = "agent")
 public class Agent {
 	@Column
 	@Id

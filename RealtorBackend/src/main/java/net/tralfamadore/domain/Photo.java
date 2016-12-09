@@ -14,7 +14,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table
+@Table(name = "photo")
 public class Photo {
 	@Id
 	@Column

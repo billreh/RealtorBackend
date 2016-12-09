@@ -58,6 +58,9 @@ create table listing_detail (
 	exterior varchar(50),
 	parking varchar(50),
 	status varchar(20),
+	school_district varchar(50),
+	style varchar(50),
+	year_built int,
 	primary key(id),
 	foreign key (listing_id) references listing(id)
 );
