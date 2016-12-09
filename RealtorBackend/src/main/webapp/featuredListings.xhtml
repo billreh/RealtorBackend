@@ -35,9 +35,6 @@
 				style="max-width: 1200px;" selectionMode="single"
 				selection="#{listingController.listing}" rowKey="#{listing.id}"
 				id="listingList">
-				<f:facet name="header">
-					Listings
-				</f:facet>
 				<p:column style="width:40px">
 	                <h:outputText id="dragIcon" styleClass="ui-icon ui-icon-arrow-4" />
 	                <p:draggable for="dragIcon" revert="true" helper="clone"/>

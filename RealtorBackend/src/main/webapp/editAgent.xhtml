@@ -17,9 +17,9 @@
 				<p:outputLabel value="Agent Email:"></p:outputLabel>
 				<p:inputText value="#{agentController.agent.email}"></p:inputText>
 			</p:panelGrid>
+			<p:commandButton value="Back" action="#{agentController.back}" ajax="false"/>
 			<p:commandButton value="Update" action="#{agentController.edit}"
-				update="messages"></p:commandButton>
-			<p:commandButton value="Back" style="margin-left: 273px;" action="#{agentController.back}" ajax="false"/>
+				update="messages" style="margin-left: 273px;"></p:commandButton>
 		</h:form>
 		<br />
 	</ui:define>

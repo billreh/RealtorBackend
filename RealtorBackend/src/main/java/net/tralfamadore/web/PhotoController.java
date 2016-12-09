@@ -27,8 +27,6 @@ import net.tralfamadore.service.ListingService;
 @PropertySource("classpath:META-INF/images.properties")
 public class PhotoController {
 	private static Logger log = Logger.getLogger(PhotoController.class);
-	private static String localBase = "C:\\Users\\Bill\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp1\\wtpwebapps\\RealtorBackend\\resources\\img";
-	private static String localBase2 = "D:\\git\\RealtorBackend\\src\\main\\webapp\\resources\\img";
 	
 	@Autowired
 	private ListingService listingService;
@@ -109,24 +107,17 @@ public class PhotoController {
 	
 	private String copyPhoto(FileUploadEvent event) {
 		String imgName = event.getFile().getFileName();
-		String fileBase = env.getProperty("remote.base") + "\\" + listing.getId();
-		String filePath = env.getProperty("remote.base") + "\\" + listing.getId()+ "\\" + imgName;
+		String fileBase = env.getProperty("remote.base") + File.separator + listing.getId();
+		String filePath = env.getProperty("remote.base") + File.separator + listing.getId()+ "\\" + imgName;
 		try {
 			File base = new File(fileBase);
 			if(!base.exists())
 				base.mkdir();
 			event.getFile().write(filePath);
-			base = new File(localBase + "\\" + listing.getId());
+			base = new File(env.getProperty("image.base") + File.separator + listing.getId());
 			if(!base.exists())
 				base.mkdir();
-			File dest = new File(localBase + "\\" + listing.getId()+ "\\" + imgName);
-			if(dest.exists())
-				Files.delete(dest.toPath());
-			Files.copy(new File(filePath).toPath(), dest.toPath());
-			base = new File(localBase2 + "\\" + listing.getId());
-			if(!base.exists())
-				base.mkdir();
-			dest = new File(localBase2 + "\\" + listing.getId()+ "\\" + imgName);
+			File dest = new File(env.getProperty("image.base") + File.separator + listing.getId()+ File.separator + imgName);
 			if(dest.exists())
 				Files.delete(dest.toPath());
 			Files.copy(new File(filePath).toPath(), dest.toPath());

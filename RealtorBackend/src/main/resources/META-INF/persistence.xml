@@ -4,8 +4,6 @@
 	version="2.0">
 	<!-- Will be referenced in Spring Context File -->
 	<persistence-unit name="jpa-persistence" transaction-type="RESOURCE_LOCAL">
-		<class>net.tralfamadore.domain.Photo</class>
-		
 		<properties>
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/test" />

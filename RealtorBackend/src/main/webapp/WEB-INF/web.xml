@@ -76,4 +76,8 @@
         <extension>ico</extension>
         <mime-type>image/x-icon</mime-type>
     </mime-mapping>
+    
+    <welcome-file-list>
+	    <welcome-file>index.xhtml</welcome-file>
+	</welcome-file-list>
 </web-app>
