@@ -15,7 +15,7 @@
 			#{photoController.listing.mainPhoto}: 
 			<p:graphicImage name="#{photoController.listing.mainPhoto}" library="img/#{photoController.listing.id}" style="height: 70px;"
 					rendered="#{photoController.hasMainPhoto}"/>
-			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.mainPhotoUpload}" multiple="false" update="mainPhoto"/>
+			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.mainPhotoUpload}" multiple="false" update="mainPhoto messages"/>
 			</p:panelGrid>
 			<div style="height: 50px;"/>
 			<p:dataTable value="#{photoController.listing.photos}" var="photo" style="max-width: 700px;" id="photos">
@@ -29,7 +29,7 @@
 					<p:graphicImage name="#{photo.name}" library="img/#{photoController.listing.id}" style="height: 70px;"/>
 				</p:column>
 				<p:column>
-					<p:commandButton icon="fa fa-times" action="#{photoController.removePhoto}" update="photos">
+					<p:commandButton icon="fa fa-times" action="#{photoController.removePhoto}" update="photos messages">
 						<f:setPropertyActionListener value="#{photo}" target="#{photoController.photoToRemove}" />
 					</p:commandButton>
 				</p:column>
@@ -38,7 +38,7 @@
 				<f:facet name="header">
 					Add Photo
 				</f:facet>
-			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.fileUploadListener}" multiple="false" update="photos"/>
+			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.fileUploadListener}" multiple="false" update="photos messages"/>
 			</p:panelGrid>
 			<div style="height: 20px"/>
 			<p:commandButton value="Back"
