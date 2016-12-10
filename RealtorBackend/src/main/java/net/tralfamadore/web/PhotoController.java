@@ -111,7 +111,7 @@ public class PhotoController {
 	private String copyPhoto(FileUploadEvent event) {
 		String imgName = event.getFile().getFileName();
 		String fileBase = env.getProperty("remote.base") + File.separator + listing.getId();
-		String filePath = env.getProperty("remote.base") + File.separator + listing.getId()+ "\\" + imgName;
+		String filePath = env.getProperty("remote.base") + File.separator + listing.getId()+ File.separator + imgName;
 		try {
 			File base = new File(fileBase);
 			if(!base.exists())
