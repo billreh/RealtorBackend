@@ -2,7 +2,6 @@ package net.tralfamadore.web;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -67,8 +66,6 @@ public class ListingController {
 	@PostConstruct
 	public void init() {
 		agents = new ArrayList<>();
-		agentList = agentService.getAgents();
-		agentList.forEach(agent -> agents.add(new SelectItem(agent.getId().toString(), agent.getFirstName() + " " + agent.getLastName())));
 		statusItems = new ArrayList<>();
 		statusItems.add(new SelectItem("Active", "Active"));
 		statusItems.add(new SelectItem("Pending", "Pending"));
@@ -147,6 +144,9 @@ public class ListingController {
 	}
 	
 	public List<SelectItem> getAgents() {
+		agents = new ArrayList<>();
+		agentList = agentService.getAgents();
+		agentList.forEach(agent -> agents.add(new SelectItem(agent.getId().toString(), agent.getFirstName() + " " + agent.getLastName())));
 		return agents;
 	}
 	
