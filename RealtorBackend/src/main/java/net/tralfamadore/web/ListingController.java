@@ -19,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 
 import net.tralfamadore.domain.Address;
@@ -37,17 +36,11 @@ import net.tralfamadore.service.ListingService;
 public class ListingController {
 	private static Logger log = Logger.getLogger(ListingController.class);
 	
-	@Autowired
 	private ListingService listingService;
 
-	@Autowired
 	private AgentService agentService;
 
-	@Autowired
-	Validator validator;
-	
-	@Autowired
-	Environment env;
+	private Validator validator;
 	
 	private String title;
 	private Listing listing;
@@ -62,6 +55,13 @@ public class ListingController {
 	private OtherRoom roomToRemove;
 	private boolean newListing = false;
 	private boolean notNew = false;
+	
+	@Autowired
+	public ListingController(ListingService listingService, AgentService agentService, Validator validator) {
+		this.listingService = listingService;
+		this.agentService = agentService;
+		this.validator = validator;
+	}
 	
 	@PostConstruct
 	public void init() {
