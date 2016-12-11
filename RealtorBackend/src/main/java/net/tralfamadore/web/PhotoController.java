@@ -121,6 +121,14 @@ public class PhotoController {
 			if(dest.exists())
 				Files.delete(dest.toPath());
 			Files.copy(new File(filePath).toPath(), dest.toPath());
+			
+			base = new File(env.getProperty("source.base") + File.separator + listing.getId());
+			if(!base.exists())
+				base.mkdir();
+			dest = new File(env.getProperty("source.base") + File.separator + listing.getId()+ File.separator + imgName);
+			if(dest.exists())
+				Files.delete(dest.toPath());
+			Files.copy(new File(filePath).toPath(), dest.toPath());
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
