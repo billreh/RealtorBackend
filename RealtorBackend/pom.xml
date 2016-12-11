@@ -178,7 +178,33 @@
 	      <artifactId>javax.ws.rs-api</artifactId>
 	      <version>2.0</version>
 	    </dependency>
-	    
+	    <!-- https://mvnrepository.com/artifact/org.mockito/mockito-all -->
+		<dependency>
+		    <groupId>org.mockito</groupId>
+		    <artifactId>mockito-all</artifactId>
+		    <version>1.10.19</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-mockito -->
+		<dependency>
+		    <groupId>org.powermock</groupId>
+		    <artifactId>powermock-api-mockito</artifactId>
+		    <version>1.6.6</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-mockito-release-full -->
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
+		<dependency>
+		    <groupId>org.powermock</groupId>
+		    <artifactId>powermock-module-junit4</artifactId>
+		    <version>1.6.6</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-api-support -->
+		<dependency>
+		    <groupId>org.powermock</groupId>
+		    <artifactId>powermock-api-support</artifactId>
+		    <version>1.6.6</version>
+		</dependency>
+		
 	</dependencies>
 	<build>
 		<plugins>

@@ -48,6 +48,39 @@ public class FeaturedListing {
 	public void setListing(Listing listing) {
 		this.listing = listing;
 	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((listing == null) ? 0 : listing.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		FeaturedListing other = (FeaturedListing) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (listing == null) {
+			if (other.listing != null)
+				return false;
+		} else if (!listing.equals(other.listing))
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {

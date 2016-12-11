@@ -28,13 +28,12 @@ public class AgentDaoImpl implements AgentDao {
 
 	@Override
 	public List<Agent> getAgents() {
-		List<Agent> agents = em.createQuery("from Agent", Agent.class).getResultList();
-		return agents;
+		return em.createQuery("from Agent", Agent.class).getResultList();
 	}
 
 	@Override
 	public Agent getAgent(long agentId) {
-		return em.createQuery("from Agent where id =:id", Agent.class).setParameter("id", agentId).getSingleResult();
+		return em.find(Agent.class, agentId);
 	}
 
 	@Override

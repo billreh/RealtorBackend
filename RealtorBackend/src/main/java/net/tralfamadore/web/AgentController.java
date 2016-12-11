@@ -26,13 +26,19 @@ import net.tralfamadore.service.AgentService;
 public class AgentController {
 	private static Logger log = Logger.getLogger(AgentController.class);
 	
-	@Autowired
+//	@Autowired
 	private AgentService agentService;
 
-	@Autowired
+//	@Autowired
 	Validator validator;
 	
 	private Agent agent;
+	
+	@Autowired
+	public AgentController(AgentService agentService, Validator validator) {
+		this.agentService = agentService;
+		this.validator = validator;
+	}
 
 	public List<Agent> getAgents() {
 		return agentService.getAgents();

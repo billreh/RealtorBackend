@@ -1,5 +1,6 @@
 package net.tralfamadore.web;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -21,12 +22,16 @@ import net.tralfamadore.service.ListingService;
 public class FeaturedListingController {
 	private static Logger log = Logger.getLogger(FeaturedListingController.class);
 	
-	@Autowired
 	private ListingService listingService;
 	
-	List<FeaturedListing> featuredListings;
+	private List<FeaturedListing> featuredListings = new ArrayList<>();
 	
 	private FeaturedListing listingToRemove;
+	
+	@Autowired
+	public FeaturedListingController(ListingService listingService) {
+		this.listingService = listingService;
+	}
 	
 	@PostConstruct
 	public void init() {

@@ -154,6 +154,74 @@ public class Listing {
 	public void setPhotos(List<Photo> photos) {
 		this.photos = photos;
 	}
+	
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((agent == null) ? 0 : agent.hashCode());
+		result = prime * result + Float.floatToIntBits(baths);
+		result = prime * result + bedrooms;
+		result = prime * result + ((houseType == null) ? 0 : houseType.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((mainPhoto == null) ? 0 : mainPhoto.hashCode());
+		result = prime * result + ((photos == null) ? 0 : photos.hashCode());
+		result = prime * result + price;
+		result = prime * result + squareFeet;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Listing other = (Listing) obj;
+		if (address == null) {
+			if (other.address != null)
+				return false;
+		} else if (!address.equals(other.address))
+			return false;
+		if (agent == null) {
+			if (other.agent != null)
+				return false;
+		} else if (!agent.equals(other.agent))
+			return false;
+		if (Float.floatToIntBits(baths) != Float.floatToIntBits(other.baths))
+			return false;
+		if (bedrooms != other.bedrooms)
+			return false;
+		if (houseType == null) {
+			if (other.houseType != null)
+				return false;
+		} else if (!houseType.equals(other.houseType))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (mainPhoto == null) {
+			if (other.mainPhoto != null)
+				return false;
+		} else if (!mainPhoto.equals(other.mainPhoto))
+			return false;
+		if (photos == null) {
+			if (other.photos != null)
+				return false;
+		} else if (!photos.equals(other.photos))
+			return false;
+		if (price != other.price)
+			return false;
+		if (squareFeet != other.squareFeet)
+			return false;
+		return true;
+	}
 
 	@Override
 	public String toString() {
