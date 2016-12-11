@@ -135,7 +135,7 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
-			<version>5.2.4.Final</version>
+		 	<version>5.2.4.Final</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.validation</groupId>
@@ -190,7 +190,6 @@
 		    <artifactId>powermock-api-mockito</artifactId>
 		    <version>1.6.6</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-mockito-release-full -->
 		<!-- https://mvnrepository.com/artifact/org.powermock/powermock-module-junit4 -->
 		<dependency>
 		    <groupId>org.powermock</groupId>

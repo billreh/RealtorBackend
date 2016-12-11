@@ -5,7 +5,10 @@ import java.util.List;
 
 import net.tralfamadore.domain.Address;
 import net.tralfamadore.domain.Agent;
+import net.tralfamadore.domain.ExteriorFeature;
 import net.tralfamadore.domain.Listing;
+import net.tralfamadore.domain.ListingDetail;
+import net.tralfamadore.domain.OtherRoom;
 import net.tralfamadore.domain.Photo;
 
 public class ListingProvider {
@@ -18,5 +21,15 @@ public class ListingProvider {
 		agent.getListings().add(listing);
 		listing.setPhotos(photos);
 		return listing;
+	}
+	
+	public static ListingDetail getListingDetail() {
+		List<ExteriorFeature> exteriorFeatures = new ArrayList<>();
+		List<OtherRoom> otherRooms = new ArrayList<>();
+		ListingDetail listingDetail = new ListingDetail(1L, getListing(), "Overview", "Yes", 2, 1, false, true,
+				exteriorFeatures, otherRooms, 3, "Brick", "Street", "Active");
+		exteriorFeatures.add(new ExteriorFeature(listingDetail, "Sidewalks"));
+		otherRooms.add(new OtherRoom(listingDetail, "Living Room"));
+		return listingDetail;
 	}
 }

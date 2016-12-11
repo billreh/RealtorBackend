@@ -1,18 +1,21 @@
 package net.tralfamadore.web;
 
 import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
@@ -27,9 +30,11 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
+import net.tralfamadore.domain.Address;
 import net.tralfamadore.domain.Agent;
 import net.tralfamadore.domain.ExteriorFeature;
 import net.tralfamadore.domain.Listing;
+import net.tralfamadore.domain.ListingDetail;
 import net.tralfamadore.domain.OtherRoom;
 import net.tralfamadore.service.AgentService;
 import net.tralfamadore.service.ListingService;
@@ -51,6 +56,7 @@ public class TestListingController {
 	private ListingController listingController;
 	private List<Listing> listings = new ArrayList<>();
 	private List<Agent> agents = new ArrayList<>();
+	private ListingDetail listingDetail;
 	
 	@Before
 	public void init() {
@@ -58,6 +64,7 @@ public class TestListingController {
         validator = factory.getValidator();
 		listingController = new ListingController(listingService, agentService, validator);
 		listings.add(ListingProvider.getListing());
+		listingDetail = ListingProvider.getListingDetail();
 		agents.add(listings.get(0).getAgent());
 		when(listingService.getListings()).thenReturn(listings);
 		when(agentService.getAgents()).thenReturn(agents);
@@ -154,5 +161,170 @@ public class TestListingController {
 		assertTrue(listingController.isNewListing());
 		assertFalse(listingController.isNotNew());
 		verify(response).sendRedirect("editListing.xhtml");
+	}
+	
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testGotoEdit() throws Exception {
+		PowerMockito.mockStatic(FacesContext.class);
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.setListing(listings.get(0));
+		listingController.gotoEdit();
+		assertEquals(listingController.getListing(), listings.get(0));
+		assertEquals(listingController.getListingDetail(), listingDetail);
+		assertEquals(listingController.getListing().getAddress(), listings.get(0).getAddress());
+		assertEquals(listingController.getListing().getAgent(), listings.get(0).getAgent());
+		assertEquals(listingController.getListingDetail().getExteriorFeatures(), listingDetail.getExteriorFeatures());
+		assertEquals(listingController.getListingDetail().getOtherRooms(), listingDetail.getOtherRooms());
+		assertEquals(listingController.getTitle(), "Edit");
+		assertFalse(listingController.isNewListing());
+		assertTrue(listingController.isNotNew());
+		verify(response).sendRedirect("editListing.xhtml");
+	}
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testBack() throws Exception {
+		PowerMockito.mockStatic(FacesContext.class);
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		listingController.back();
+		verify(response).sendRedirect("listings.xhtml");
+	}
+	
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testEdit() {
+		PowerMockito.mockStatic(FacesContext.class);
+		listingController.setAgentId("1");
+		listingController.setListing(listings.get(0));
+		when(agentService.getAgent(1L)).thenReturn(listings.get(0).getAgent());
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.setListing(listings.get(0));
+		listingController.gotoEdit();
+		
+		listingController.edit();
+		verify(facesContext).addMessage(argThat(
+				new ArgumentMatcher<String>() {
+					@Override
+					public boolean matches(Object o) {
+						return o == null;
+					}
+				}), argThat(
+				new ArgumentMatcher<FacesMessage>() {
+					@Override
+					public boolean matches(Object o) {
+						return ((FacesMessage)o).getDetail().equals("The listing for 534 Queen St has been saved.");
+					}
+				}));
+	}
+	
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testEditFailValidate() {
+		PowerMockito.mockStatic(FacesContext.class);
+		listingController.setAgentId("");
+		listingController.setListing(listings.get(0));
+		when(agentService.getAgent(1L)).thenReturn(null);
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.setListing(listings.get(0));
+		listingController.gotoEdit();
+		
+		listingController.edit();
+		verify(facesContext).addMessage(argThat(
+				new ArgumentMatcher<String>() {
+					@Override
+					public boolean matches(Object o) {
+						return o == null;
+					}
+				}), argThat(
+				new ArgumentMatcher<FacesMessage>() {
+					@Override
+					public boolean matches(Object o) {
+						return ((FacesMessage)o).getDetail().equals("You must specify an agent");
+					}
+				}));
+	}
+	
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testSave() {
+		PowerMockito.mockStatic(FacesContext.class);
+		listingController.setAgentId("1");
+		listingController.setListing(listings.get(0));
+		when(agentService.getAgent(1L)).thenReturn(listings.get(0).getAgent());
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.addListing();
+		listingController.setListing(listings.get(0));
+		listingController.setListingDetail(listingDetail);
+		
+		listingController.save();
+		assertTrue(listingController.isNotNew());
+		assertFalse(listingController.isNewListing());
+		verify(facesContext).addMessage(argThat(
+				new ArgumentMatcher<String>() {
+					@Override
+					public boolean matches(Object o) {
+						return o == null;
+					}
+				}), argThat(
+				new ArgumentMatcher<FacesMessage>() {
+					@Override
+					public boolean matches(Object o) {
+						return ((FacesMessage)o).getDetail().equals("The listing for 534 Queen St has been saved.");
+					}
+				}));
+	}
+	
+	@Test
+	@PrepareForTest({FacesContext.class})
+	public void testSaveFailValidation() {
+		PowerMockito.mockStatic(FacesContext.class);
+		listingController.setAgentId("");
+		listingController.setListing(listings.get(0));
+		when(agentService.getAgent(1L)).thenReturn(listings.get(0).getAgent());
+		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
+		when(facesContext.getExternalContext()).thenReturn(externalContext);
+		when(externalContext.getResponse()).thenReturn(response);
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.addListing();
+		listingController.setListing(listings.get(0));
+		listingController.setListingDetail(listingDetail);
+		
+		listingController.save();
+		verify(facesContext).addMessage(argThat(
+				new ArgumentMatcher<String>() {
+					@Override
+					public boolean matches(Object o) {
+						return o == null;
+					}
+				}), argThat(
+				new ArgumentMatcher<FacesMessage>() {
+					@Override
+					public boolean matches(Object o) {
+						return ((FacesMessage)o).getDetail().equals("You must specify an agent");
+					}
+				}));
+	}
+	
+	@Test
+	public void testDelete() {
+		listingController.setListing(listings.get(0));
+		when(listingService.getListingDetail(1L)).thenReturn(listingDetail);
+		listingController.delete();
+		verify(listingService, times(1)).deleteListing(listings.get(0));
+		verify(listingService, times(1)).deleteListingDetail(listingDetail);
 	}
 }

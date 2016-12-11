@@ -56,7 +56,7 @@ public class RealtyRestController {
 		Agent agent = listing.getAgent();
 		String message = "Thank you for your interest in " + listing.getAddress().getStreet()
 				+ ".  You can contact me at " + agent.getContactNumber() + " or " + agent.getEmail()
-				+ " to set up a showing.\nSincerely\n\n" + agent.getFirstName() + " " + agent.getLastName();
+				+ " to set up a showing.\n\nSincerely\n\n" + agent.getFirstName() + " " + agent.getLastName();
 		try {
 			mailService.sendMail(contactAgent.getEmail(), agent.getEmail(), "Re: " + listing.getAddress().getStreet(),
 					message);

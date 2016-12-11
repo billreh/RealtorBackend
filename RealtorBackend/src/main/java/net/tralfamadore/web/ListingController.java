@@ -139,6 +139,10 @@ public class ListingController {
 		return listingDetail;
 	}
 	
+	public void setListingDetail(ListingDetail listingDetail) {
+		this.listingDetail = listingDetail;
+	}
+	
 	public List<SelectItem> getStatusItems() {
 		return statusItems;
 	}
@@ -232,6 +236,8 @@ public class ListingController {
 	
 	@CacheEvict(value = { "listingList" }, allEntries = true, beforeInvocation = true)
 	public void edit() {
+		if(!validateListing())
+			return;
 		Agent agent = agentService.getAgent(new Long(agentId));
 		listing.setAgent(agent);
 		listingService.updateListing(listing);

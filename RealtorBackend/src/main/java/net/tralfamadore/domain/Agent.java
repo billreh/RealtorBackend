@@ -115,7 +115,6 @@ public class Agent {
 		result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
-		result = prime * result + ((listings == null) ? 0 : listings.hashCode());
 		return result;
 	}
 
