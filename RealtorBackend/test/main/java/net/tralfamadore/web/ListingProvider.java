@@ -18,6 +18,7 @@ public class ListingProvider {
 		List<Photo> photos = new ArrayList<>();
 		Listing listing = new Listing(1L, address, 500000, "Row Home", 2.5f, 3, 1642, agent, "main.jpg", null);
 		photos.add(new Photo(listing, "bedroom.jpg"));
+		photos.get(0).setId(1L);
 		agent.getListings().add(listing);
 		listing.setPhotos(photos);
 		return listing;

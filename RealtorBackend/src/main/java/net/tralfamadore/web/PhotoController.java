@@ -2,7 +2,6 @@ package net.tralfamadore.web;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,16 +9,17 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
-import org.apache.log4j.Logger;
-import org.primefaces.event.FileUploadEvent;
 
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.Photo;
 import net.tralfamadore.service.ListingService;
+import net.tralfamadore.service.PhotoFileService;
 
 @ManagedBean
 @SessionScoped
@@ -28,11 +28,11 @@ import net.tralfamadore.service.ListingService;
 public class PhotoController {
 	private static Logger log = Logger.getLogger(PhotoController.class);
 	
-	@Autowired
 	private ListingService listingService;
 	
-	@Autowired
-	Environment env;
+	private Environment env;
+	
+	private PhotoFileService photoFileService;
 	
 	private long listingId;
 	
@@ -40,6 +40,13 @@ public class PhotoController {
 	
 	private Photo photoToRemove;
 
+	@Autowired
+	public PhotoController(ListingService listingService, Environment env, PhotoFileService photoFileService) {
+		this.listingService = listingService;
+		this.env = env;
+		this.photoFileService = photoFileService;
+	}
+	
 	public long getListingId() {
 		return listingId;
 	}
@@ -80,7 +87,14 @@ public class PhotoController {
 	}
 	
 	public void mainPhotoUpload(FileUploadEvent event) {
-		String imgName = copyPhoto(event);
+		String imgName;
+		try {
+			imgName = copyPhoto(event);
+		} catch(Exception e) {
+			// Add message
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			return;
+		}
 		listing.setMainPhoto(imgName);
 		listingService.updateListing(listing);
 		// Add message
@@ -89,12 +103,18 @@ public class PhotoController {
 	}
 
 	public void fileUploadListener(FileUploadEvent event) {
-		String imgName = copyPhoto(event);
+		String imgName;
+		try {
+			imgName = copyPhoto(event);
+		} catch(Exception e) {
+			// Add message
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(e.getMessage()));
+			return;
+		}
 		listing.getPhotos().add(new Photo(listing, imgName));
 		listingService.updateListing(listing);
 		// Add message
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Photo saved"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo saved"));
 	}
 	
 	public void removePhoto() {
@@ -105,34 +125,17 @@ public class PhotoController {
 				new FacesMessage("Photo removed"));
 	}
 	
-	private String copyPhoto(FileUploadEvent event) {
-		String imgName = event.getFile().getFileName();
+	private String copyPhoto(FileUploadEvent event) throws Exception {
 		String fileBase = env.getProperty("remote.base") + File.separator + listing.getId();
-		String filePath = env.getProperty("remote.base") + File.separator + listing.getId()+ File.separator + imgName;
-		try {
-			File base = new File(fileBase);
-			if(!base.exists())
-				base.mkdir();
-			event.getFile().write(filePath);
-			base = new File(env.getProperty("image.base") + File.separator + listing.getId());
-			if(!base.exists())
-				base.mkdir();
-			File dest = new File(env.getProperty("image.base") + File.separator + listing.getId()+ File.separator + imgName);
-			if(dest.exists())
-				Files.delete(dest.toPath());
-			Files.copy(new File(filePath).toPath(), dest.toPath());
-			
-			base = new File(env.getProperty("source.base") + File.separator + listing.getId());
-			if(!base.exists())
-				base.mkdir();
-			dest = new File(env.getProperty("source.base") + File.separator + listing.getId()+ File.separator + imgName);
-			if(dest.exists())
-				Files.delete(dest.toPath());
-			Files.copy(new File(filePath).toPath(), dest.toPath());
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		String imgName = photoFileService.writeUploadedFile(event, fileBase);
+		
+		String filePath = fileBase + File.separator + imgName;
+		String destDir = env.getProperty("image.base") + File.separator + listing.getId();
+		photoFileService.copyFile(filePath, destDir, imgName);
+		
+		destDir = env.getProperty("source.base") + File.separator + listing.getId();
+		photoFileService.copyFile(filePath, destDir, imgName);
+		
 		return imgName;
 	}
 }
