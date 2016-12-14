@@ -4,8 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
 
 import org.apache.log4j.Logger;
 import org.primefaces.event.DragDropEvent;
@@ -58,12 +60,15 @@ public class FeaturedListingController {
 		FeaturedListing fl = new FeaturedListing((Listing) ddEvent.getData());
 		listingService.saveFeaturedListing(fl);
 		featuredListings.add(fl);
+		// Add message
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Featured listing updated"));
     }
 	
 	public void removeListing() {
 		featuredListings.removeIf(fl -> {
 			if(fl.getListing().getId() == listingToRemove.getListing().getId()) {
 				listingService.deleteFeaturedListing(fl);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Featured listing updated"));
 				return true;
 			}
 			return false;

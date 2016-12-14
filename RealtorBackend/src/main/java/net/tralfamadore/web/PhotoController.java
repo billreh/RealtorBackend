@@ -97,8 +97,7 @@ public class PhotoController {
 		listing.setMainPhoto(imgName);
 		listingService.updateListing(listing);
 		// Add message
-		FacesContext.getCurrentInstance().addMessage(null,
-				new FacesMessage("Photo saved"));
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Photo saved"));
 	}
 
 	public void fileUploadListener(FileUploadEvent event) {
