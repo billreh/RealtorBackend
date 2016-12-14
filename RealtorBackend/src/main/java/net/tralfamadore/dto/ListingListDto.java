@@ -146,6 +146,79 @@ public class ListingListDto {
 	}
 
 	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + Float.floatToIntBits(bathrooms);
+		result = prime * result + bedrooms;
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((houseType == null) ? 0 : houseType.hashCode());
+		result = prime * result + (int) (id ^ (id >>> 32));
+		result = prime * result + ((mainPhoto == null) ? 0 : mainPhoto.hashCode());
+		result = prime * result + Arrays.hashCode(photos);
+		result = prime * result + price;
+		result = prime * result + squareFeet;
+		result = prime * result + ((state == null) ? 0 : state.hashCode());
+		result = prime * result + ((street == null) ? 0 : street.hashCode());
+		result = prime * result + ((zipCode == null) ? 0 : zipCode.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ListingListDto other = (ListingListDto) obj;
+		if (Float.floatToIntBits(bathrooms) != Float.floatToIntBits(other.bathrooms))
+			return false;
+		if (bedrooms != other.bedrooms)
+			return false;
+		if (city == null) {
+			if (other.city != null)
+				return false;
+		} else if (!city.equals(other.city))
+			return false;
+		if (houseType == null) {
+			if (other.houseType != null)
+				return false;
+		} else if (!houseType.equals(other.houseType))
+			return false;
+		if (id != other.id)
+			return false;
+		if (mainPhoto == null) {
+			if (other.mainPhoto != null)
+				return false;
+		} else if (!mainPhoto.equals(other.mainPhoto))
+			return false;
+		if (!Arrays.equals(photos, other.photos))
+			return false;
+		if (price != other.price)
+			return false;
+		if (squareFeet != other.squareFeet)
+			return false;
+		if (state == null) {
+			if (other.state != null)
+				return false;
+		} else if (!state.equals(other.state))
+			return false;
+		if (street == null) {
+			if (other.street != null)
+				return false;
+		} else if (!street.equals(other.street))
+			return false;
+		if (zipCode == null) {
+			if (other.zipCode != null)
+				return false;
+		} else if (!zipCode.equals(other.zipCode))
+			return false;
+		return true;
+	}
+
+	@Override
 	public String toString() {
 		return "ListingListDto [id=" + id + ", street=" + street + ", city=" + city + ", state=" + state + ", zipCode="
 				+ zipCode + ", houseType=" + houseType + ", bedrooms=" + bedrooms + ", bathrooms=" + bathrooms

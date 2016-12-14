@@ -63,7 +63,7 @@ public class ListingDetail {
 	
 	public ListingDetail(Long id, Listing listing, String overview, String masterBedroom, int fullBathrooms, int halfBathrooms,
 			boolean diningKitchen, boolean diningRoom, List<ExteriorFeature> exteriorFeatures, List<OtherRoom> otherRooms,
-			int stories, String exterior, String parking, String status) {
+			int stories, String exterior, String parking, String status, String style, int yearBuilt, String schoolDistrict) {
 		this.id = id;
 		this.listing= listing;
 		this.overview = overview;
@@ -78,6 +78,9 @@ public class ListingDetail {
 		this.exterior = exterior;
 		this.parking = parking;
 		this.status = status;
+		this.style = style;
+		this.yearBuilt = yearBuilt;
+		this.schoolDistrict = schoolDistrict;
 	}
 
 	public Long getId() {

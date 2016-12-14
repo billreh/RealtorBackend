@@ -2,8 +2,6 @@ package net.tralfamadore.web;
 
 import java.util.List;
 
-import javax.mail.MessagingException;
-
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,11 +29,15 @@ import net.tralfamadore.service.MailService;
 public class RealtyRestController {
 	private static Logger logger = Logger.getLogger(RealtyRestController.class);
 	
-	@Autowired
 	private ListingService listingService;
 	
-	@Autowired
 	private MailService mailService;
+	
+	@Autowired
+	public RealtyRestController(ListingService listingService, MailService mailService) {
+		this.listingService = listingService;
+		this.mailService = mailService;
+	}
 	
     @CrossOrigin
     @GetMapping("/listings")

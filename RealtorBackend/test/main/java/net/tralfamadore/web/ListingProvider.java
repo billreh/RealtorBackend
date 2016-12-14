@@ -28,7 +28,7 @@ public class ListingProvider {
 		List<ExteriorFeature> exteriorFeatures = new ArrayList<>();
 		List<OtherRoom> otherRooms = new ArrayList<>();
 		ListingDetail listingDetail = new ListingDetail(1L, getListing(), "Overview", "Yes", 2, 1, false, true,
-				exteriorFeatures, otherRooms, 3, "Brick", "Street", "Active");
+				exteriorFeatures, otherRooms, 3, "Brick", "Street", "Active", "Traditional", 1924, "Philadelphia");
 		exteriorFeatures.add(new ExteriorFeature(listingDetail, "Sidewalks"));
 		otherRooms.add(new OtherRoom(listingDetail, "Living Room"));
 		return listingDetail;
