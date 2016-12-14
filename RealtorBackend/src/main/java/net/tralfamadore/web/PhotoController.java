@@ -19,7 +19,6 @@ import org.springframework.stereotype.Controller;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.Photo;
 import net.tralfamadore.service.ListingService;
-import net.tralfamadore.service.PhotoFileService;
 
 @ManagedBean
 @SessionScoped
@@ -32,7 +31,7 @@ public class PhotoController {
 	
 	private Environment env;
 	
-	private PhotoFileService photoFileService;
+	private PhotoFileHelper photoFileService;
 	
 	private long listingId;
 	
@@ -41,7 +40,7 @@ public class PhotoController {
 	private Photo photoToRemove;
 
 	@Autowired
-	public PhotoController(ListingService listingService, Environment env, PhotoFileService photoFileService) {
+	public PhotoController(ListingService listingService, Environment env, PhotoFileHelper photoFileService) {
 		this.listingService = listingService;
 		this.env = env;
 		this.photoFileService = photoFileService;

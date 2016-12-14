@@ -26,7 +26,6 @@ import org.springframework.core.env.Environment;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.Photo;
 import net.tralfamadore.service.ListingService;
-import net.tralfamadore.service.PhotoFileService;
 
 @RunWith(PowerMockRunner.class)
 public class TestPhotoController {
@@ -37,7 +36,7 @@ public class TestPhotoController {
 	private Environment env;
 	
 	@Mock
-	private PhotoFileService photoFileService;
+	private PhotoFileHelper photoFileService;
 	
 	@Mock
 	private FacesContext facesContext;

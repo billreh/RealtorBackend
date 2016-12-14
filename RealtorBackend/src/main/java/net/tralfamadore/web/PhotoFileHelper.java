@@ -1,4 +1,4 @@
-package net.tralfamadore.service;
+package net.tralfamadore.web;
 
 import java.io.File;
 import java.io.IOException;
@@ -8,7 +8,7 @@ import org.primefaces.event.FileUploadEvent;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PhotoFileService {
+public class PhotoFileHelper {
 	public String writeUploadedFile(FileUploadEvent event, String destDir) throws Exception {
 		String imgName = event.getFile().getFileName();
 		File baseDir = new File(destDir);
