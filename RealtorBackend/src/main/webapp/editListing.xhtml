@@ -269,7 +269,7 @@
 			</div>
 			
 			<div style="height: 20px;"/>
-			<p:commandButton value="Manage Photos" action="managePhotos" rendered="#{listingController.notNew}" id="managePhotos">
+			<p:commandButton value="Manage Photos" action="managePhotos.xhtml?faces-redirect=true" rendered="#{listingController.notNew}" id="managePhotos">
 				<f:setPropertyActionListener value="#{listingController.listing.id}" target="#{photoController.listingId}"/>
 			</p:commandButton>
 			<div style="height: 20px;"/>
