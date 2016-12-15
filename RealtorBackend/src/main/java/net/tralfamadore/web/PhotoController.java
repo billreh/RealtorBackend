@@ -2,6 +2,7 @@ package net.tralfamadore.web;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Objects;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -116,7 +117,7 @@ public class PhotoController {
 	}
 	
 	public void removePhoto() {
-		listing.getPhotos().removeIf(p -> p.getId() == photoToRemove.getId());
+		listing.getPhotos().removeIf(p -> Objects.equals(p.getId(), photoToRemove.getId()));
 		listingService.updateListing(listing);
 		// Add message
 		FacesContext.getCurrentInstance().addMessage(null,

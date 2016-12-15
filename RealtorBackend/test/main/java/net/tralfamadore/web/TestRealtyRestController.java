@@ -1,6 +1,5 @@
 package net.tralfamadore.web;
 
-import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyLong;
 import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.verify;
@@ -81,11 +80,11 @@ public class TestRealtyRestController {
 	}
 	
 	@Test
-	public void testDoCheckout() throws MessagingException {
+	public void testContactAgent() throws MessagingException {
 		ContactAgentDto cad = new ContactAgentDto(1L, "Bill Reh", "billreh@gmail.com", "215-555-1212",
 				"I'm interested in 534 Queen St");
 		when(listingService.getListing(anyLong())).thenReturn(listings.get(0));
-		ServerResponse response = realtyRestController.doCheckout(cad);
+		ServerResponse response = realtyRestController.contactAgent(cad);
 		verify(mailService).sendMail(argThat(new ArgumentMatcher<String>() {
 			public boolean matches(Object argument) {
 				return "billreh@gmail.com".equals(argument);

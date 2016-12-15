@@ -2,6 +2,7 @@ package net.tralfamadore.web;
 
 import java.util.List;
 
+import net.tralfamadore.dto.*;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,11 +17,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import net.tralfamadore.domain.Agent;
 import net.tralfamadore.domain.Listing;
-import net.tralfamadore.dto.ContactAgentDto;
-import net.tralfamadore.dto.FeaturedListingDto;
-import net.tralfamadore.dto.ListingDetailDto;
-import net.tralfamadore.dto.ListingListDto;
-import net.tralfamadore.dto.ServerResponse;
 import net.tralfamadore.service.ListingService;
 import net.tralfamadore.service.MailService;
 
@@ -44,7 +40,14 @@ public class RealtyRestController {
     public @ResponseBody List<ListingListDto> getListings() {
     	return listingService.getListingListDtos();
     }
-    
+
+	@CrossOrigin
+	@PostMapping("/listings/search")
+	public @ResponseBody List<ListingListDto> getListings(@RequestBody SearchDto searchDto) {
+        logger.info("got searchDto: " + searchDto);
+        return listingService.getListingListDtos(searchDto);
+    }
+
     @CrossOrigin
     @GetMapping("/listing-detail")
     public @ResponseBody ListingDetailDto getListingDetail(@RequestParam(value = "id", required=true) Long id) {
@@ -53,7 +56,7 @@ public class RealtyRestController {
     
     @CrossOrigin
     @PostMapping("/contact-agent")
-	public @ResponseBody ServerResponse doCheckout(@RequestBody ContactAgentDto contactAgent) {
+	public @ResponseBody ServerResponse contactAgent(@RequestBody ContactAgentDto contactAgent) {
 		Listing listing = listingService.getListing(contactAgent.getListingId());
 		Agent agent = listing.getAgent();
 		String message = "Thank you for your interest in " + listing.getAddress().getStreet()

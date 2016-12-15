@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
+import net.tralfamadore.dto.SearchDto;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,8 +49,7 @@ public class ListingDaoImpl implements ListingDao {
 	@Transactional
 	public List<Listing> getListings() {
 		log.info("fetching listings list");
-		List<Listing> listings = em.createQuery("from Listing", Listing.class).getResultList();
-		return listings;
+		return em.createQuery("from Listing", Listing.class).getResultList();
 	}
 	
 	@Override
@@ -152,5 +153,39 @@ public class ListingDaoImpl implements ListingDao {
 	@Transactional
 	public void deleteFeaturedListing(FeaturedListing featuredListing) {
 		em.remove(em.contains(featuredListing) ? featuredListing : em.merge(featuredListing));
+	}
+
+	@Override
+	public List<Listing> getListings(SearchDto searchDto) {
+	    String sql = "from Listing where 1 = 1";
+	    if(searchDto.getBathrooms() != 0)
+	    	sql += " and bathrooms >= :bathrooms";
+		if(searchDto.getBedrooms() != 0)
+			sql += " and bedrooms >= :bedrooms";
+		if(searchDto.getCity() != null && !searchDto.getCity().trim().isEmpty())
+			sql += " and address.city = :city";
+		if(searchDto.getState() != null && !searchDto.getState().trim().isEmpty())
+			sql += " and address.state = :state";
+		if(searchDto.getZipCode() != null && !searchDto.getZipCode().trim().isEmpty())
+			sql += " and address.zipCode = :zipCode";
+		if(searchDto.getPrice() != 0)
+			sql += " and price <= :price";
+
+		Query query = em.createQuery(sql, Listing.class);
+
+		if(searchDto.getBathrooms() != 0)
+			query.setParameter("bathrooms", searchDto.getBathrooms());
+		if(searchDto.getBedrooms() != 0)
+			query.setParameter("bedrooms", searchDto.getBedrooms());
+        if(searchDto.getCity() != null && !searchDto.getCity().trim().isEmpty())
+            query.setParameter("city", searchDto.getCity());
+        if(searchDto.getState() != null && !searchDto.getState().trim().isEmpty())
+			query.setParameter("state", searchDto.getState());
+		if(searchDto.getZipCode() != null && !searchDto.getZipCode().trim().isEmpty())
+			query.setParameter("zipCode", searchDto.getZipCode());
+		if(searchDto.getPrice() != 0)
+			query.setParameter("price", searchDto.getPrice());
+
+		return query.getResultList();
 	}
 }

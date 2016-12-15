@@ -2,6 +2,8 @@ package net.tralfamadore.dao;
 
 import java.util.List;
 
+import net.tralfamadore.dto.ListingListDto;
+import net.tralfamadore.dto.SearchDto;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,4 +37,6 @@ public interface ListingDao {
 	long saveFeaturedListing(FeaturedListing featuredListing);
 
 	void deleteFeaturedListing(FeaturedListing featuredListing);
+
+    List<Listing> getListings(SearchDto searchDto);
 }

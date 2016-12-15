@@ -3,6 +3,7 @@ package net.tralfamadore.service;
 import static java.util.stream.Collectors.toList;
 import java.util.List;
 
+import net.tralfamadore.dto.SearchDto;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -46,8 +47,7 @@ public class ListingService {
 	}
 	
 	public ListingDetail getListingDetail(long listingId) {
-		ListingDetail listingDetail = listingDao.getListingDetail(listingId);
-		return listingDetail;
+		return listingDao.getListingDetail(listingId);
 	}
 	
 	public void updateListingDetail(ListingDetail listingDetail) {
@@ -102,4 +102,10 @@ public class ListingService {
 		List<FeaturedListing> featuredListings = listingDao.getFeaturedListings();
 		return featuredListings.stream().map(fl -> new FeaturedListingDto(fl.getListing().getId(), fl.getListing().getMainPhoto())).collect(toList());
 	}
+
+    public List<ListingListDto> getListingListDtos(SearchDto searchDto) {
+		return listingDao.getListings(searchDto).stream().map(l -> new ListingListDto(l.getId(), l.getAddress().getStreet(), l.getAddress().getCity(),
+				l.getAddress().getState(), l.getAddress().getZipCode(), l.getHouseType(), l.getBedrooms(), l.getBaths(), l.getSquareFeet(),
+				l.getPrice(), l.getMainPhoto(), l.getPhotos().stream().map(Photo::getName).toArray(size -> new String[size]))).collect(toList());
+    }
 }
