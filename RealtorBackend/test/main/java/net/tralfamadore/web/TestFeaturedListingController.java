@@ -16,11 +16,8 @@ import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.primefaces.event.DragDropEvent;
 
-import net.tralfamadore.domain.Address;
-import net.tralfamadore.domain.Agent;
 import net.tralfamadore.domain.FeaturedListing;
 import net.tralfamadore.domain.Listing;
-import net.tralfamadore.domain.Photo;
 import net.tralfamadore.service.ListingService;
 
 import javax.faces.application.FacesMessage;
