@@ -10,8 +10,12 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class MailService {
-	@Autowired
 	private transient JavaMailSender mailSender;
+
+	@Autowired
+	public MailService(JavaMailSender mailSender) {
+		this.mailSender = mailSender;
+	}
 	
 	public void sendMail(String to, String from, String subject, String message) throws MessagingException {
 		MimeMessage mimeMessage = mailSender.createMimeMessage();

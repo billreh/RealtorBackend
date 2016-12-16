@@ -7,8 +7,12 @@ import net.tralfamadore.service.AgentService;
 
 public class KeepAliveJob {
 	private static Logger log = Logger.getLogger(KeepAliveJob.class);
-	@Autowired
 	private AgentService agentService;
+
+	@Autowired
+	public KeepAliveJob(AgentService agentService) {
+		this.agentService = agentService;
+	}
 	
 	public void keepAlive() {
 		log.info("keeping it alive");

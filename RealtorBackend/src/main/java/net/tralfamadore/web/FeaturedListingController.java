@@ -2,6 +2,7 @@ package net.tralfamadore.web;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -56,7 +57,7 @@ public class FeaturedListingController {
 			if(fl.getListing().getId().equals(((Listing)ddEvent.getData()).getId())) {
 				return;
 			}
-		};
+		}
 		FeaturedListing fl = new FeaturedListing((Listing) ddEvent.getData());
 		listingService.saveFeaturedListing(fl);
 		featuredListings.add(fl);
@@ -65,8 +66,9 @@ public class FeaturedListingController {
     }
 	
 	public void removeListing() {
+	    log.info("removing listing " + listingToRemove);
 		featuredListings.removeIf(fl -> {
-			if(fl.getListing().getId() == listingToRemove.getListing().getId()) {
+			if(Objects.equals(fl.getListing().getId(), listingToRemove.getListing().getId())) {
 				listingService.deleteFeaturedListing(fl);
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Featured listing updated"));
 				return true;

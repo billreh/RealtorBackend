@@ -48,7 +48,7 @@ public class Photo {
 		return this.listing;
 	}
 
-	public void setListingId(Listing listing) {
+	public void setListing(Listing listing) {
 		this.listing= listing;
 	}
 

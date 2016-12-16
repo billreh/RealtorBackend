@@ -23,10 +23,14 @@ import net.tralfamadore.dto.ListingListDto;
 public class ListingService {
 	private static Logger log = Logger.getLogger(ListingService.class);
 	
-	@Autowired
 	private ListingDao listingDao;
-	
-	public List<Listing> getListings() {
+
+    @Autowired
+    public ListingService(ListingDao listingDao) {
+        this.listingDao = listingDao;
+    }
+
+    public List<Listing> getListings() {
 		return listingDao.getListings();
 	}
 	
@@ -78,7 +82,7 @@ public class ListingService {
 		return getListings().stream().map(listing -> new ListingListDto(listing.getId(), listing.getAddress().getStreet(), listing.getAddress().getCity(),
 					listing.getAddress().getState(), listing.getAddress().getZipCode(), listing.getHouseType(), listing.getBedrooms(),
 					listing.getBaths(), listing.getSquareFeet(), listing.getPrice(), listing.getMainPhoto(),
-					listing.getPhotos().stream().map(Photo::getName).toArray(size -> new String[size])))
+					listing.getPhotos().stream().map(Photo::getName).toArray(String[]::new)))
 				.collect(toList());
 	}
 	
@@ -90,11 +94,11 @@ public class ListingService {
 				listingDetail.getListing().getBedrooms(), listingDetail.getListing().getBaths(), listingDetail.getListing().getSquareFeet(),
 				listingDetail.getOverview(), listingDetail.getMasterBedroom(), listingDetail.getFullBathrooms(), listingDetail.getHalfBathrooms(),
 				listingDetail.isDiningKitchen(), listingDetail.isDiningRoom(),
-				listingDetail.getExteriorFeatures().stream().map(ExteriorFeature::getName).toArray(size -> new String[size]),
-				listingDetail.getOtherRooms().stream().map(OtherRoom::getName).toArray(size -> new String[size]),
+				listingDetail.getExteriorFeatures().stream().map(ExteriorFeature::getName).toArray(String[]::new),
+				listingDetail.getOtherRooms().stream().map(OtherRoom::getName).toArray(String[]::new),
 				listingDetail.getStories(), listingDetail.getExterior(), listingDetail.getParking(), listingDetail.getListing().getPrice(),
 				listingDetail.getListing().getMainPhoto(),
-				listingDetail.getListing().getPhotos().stream().map(Photo::getName).toArray(size -> new String[size]),
+				listingDetail.getListing().getPhotos().stream().map(Photo::getName).toArray(String[]::new),
 				listingDetail.getStatus(), listingDetail.getStyle(), listingDetail.getYearBuilt(), listingDetail.getSchoolDistrict());
 	}
 	
@@ -104,8 +108,9 @@ public class ListingService {
 	}
 
     public List<ListingListDto> getListingListDtos(SearchDto searchDto) {
+        log.info("fetching listing dtos for " + searchDto);
 		return listingDao.getListings(searchDto).stream().map(l -> new ListingListDto(l.getId(), l.getAddress().getStreet(), l.getAddress().getCity(),
 				l.getAddress().getState(), l.getAddress().getZipCode(), l.getHouseType(), l.getBedrooms(), l.getBaths(), l.getSquareFeet(),
-				l.getPrice(), l.getMainPhoto(), l.getPhotos().stream().map(Photo::getName).toArray(size -> new String[size]))).collect(toList());
+				l.getPrice(), l.getMainPhoto(), l.getPhotos().stream().map(Photo::getName).toArray(String[]::new))).collect(toList());
     }
 }

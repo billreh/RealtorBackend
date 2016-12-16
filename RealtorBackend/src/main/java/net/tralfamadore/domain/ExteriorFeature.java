@@ -48,7 +48,7 @@ public class ExteriorFeature {
 		return this.listingDetail;
 	}
 
-	public void setListingId(ListingDetail listingDetail) {
+	public void setListingDetail(ListingDetail listingDetail) {
 		this.listingDetail= listingDetail;
 	}
 

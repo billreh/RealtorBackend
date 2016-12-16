@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class PhotoFileHelper {
-	public String writeUploadedFile(FileUploadEvent event, String destDir) throws Exception {
+	String writeUploadedFile(FileUploadEvent event, String destDir) throws Exception {
 		String imgName = event.getFile().getFileName();
 		File baseDir = new File(destDir);
 		
@@ -24,7 +24,7 @@ public class PhotoFileHelper {
 		return imgName;
 	}
 	
-	public void copyFile(String origFile, String destDir, String fileName) throws IOException {
+	void copyFile(String origFile, String destDir, String fileName) throws IOException {
 		File fromFile = new File(origFile);
 		
 		if(!fromFile.exists())

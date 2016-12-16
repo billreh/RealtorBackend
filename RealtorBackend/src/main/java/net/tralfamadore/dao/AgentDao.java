@@ -5,13 +5,13 @@ import java.util.List;
 import net.tralfamadore.domain.Agent;
 
 public interface AgentDao {
-	public List<Agent> getAgents();
+	List<Agent> getAgents();
 	
-	public Agent getAgent(long agentId);
+	Agent getAgent(long agentId);
 	
-	public long saveAgent(Agent agent);
+	long saveAgent(Agent agent);
 	
-	public void updateAgent(Agent agent);
-	
-	public void deleteAgent(Agent agent);
+	void updateAgent(Agent agent);
+
+	void deleteAgent(Agent agent);
 }

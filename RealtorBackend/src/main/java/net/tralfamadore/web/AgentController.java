@@ -1,7 +1,6 @@
 package net.tralfamadore.web;
 
 import java.io.IOException;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class AgentController {
 	private AgentService agentService;
 
 //	@Autowired
-	Validator validator;
+	private Validator validator;
 	
 	private Agent agent;
 	
@@ -87,7 +86,8 @@ public class AgentController {
 	public void save() {
 		if(!validateAgent())
 			return;
-		
+
+		log.info("saving agent " + agent);
 		long id = agentService.saveAgent(agent);
 		
 		// Add message

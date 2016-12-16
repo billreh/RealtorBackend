@@ -50,7 +50,7 @@ public class RealtyRestController {
 
     @CrossOrigin
     @GetMapping("/listing-detail")
-    public @ResponseBody ListingDetailDto getListingDetail(@RequestParam(value = "id", required=true) Long id) {
+    public @ResponseBody ListingDetailDto getListingDetail(@RequestParam(value = "id") Long id) {
     	return listingService.getListingDetailDto(id);
     }
     

@@ -214,13 +214,10 @@ public class Listing {
 		if (photos == null) {
 			if (other.photos != null)
 				return false;
-		} else if (!photos.equals(other.photos))
+		} else if (!photos.equals(other.photos)) {
 			return false;
-		if (price != other.price)
-			return false;
-		if (squareFeet != other.squareFeet)
-			return false;
-		return true;
+		}
+		return price == other.price && squareFeet == other.squareFeet;
 	}
 
 	@Override

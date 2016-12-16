@@ -3,6 +3,7 @@ package net.tralfamadore.web;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.annotation.PostConstruct;
@@ -48,8 +49,7 @@ public class ListingController {
 	private String exteriorFeature;
 	private String room;
 	private String agentId;
-	private List<Agent> agentList;
-	private List<SelectItem> agents;
+    private List<SelectItem> agents;
 	private List<SelectItem> statusItems;
 	private ExteriorFeature featureToRemove;
 	private OtherRoom roomToRemove;
@@ -91,11 +91,11 @@ public class ListingController {
 	}
 	
 	public void removeRoom() {
-		listingDetail.getOtherRooms().removeIf(r -> r.getId() == roomToRemove.getId());
+		listingDetail.getOtherRooms().removeIf(r -> Objects.equals(r.getId(), roomToRemove.getId()));
 	}
 	
 	public void removeFeature() {
-		listingDetail.getExteriorFeatures().removeIf(f -> f.getId() == featureToRemove.getId());
+		listingDetail.getExteriorFeatures().removeIf(f -> Objects.equals(f.getId(), featureToRemove.getId()));
 	}
 	
 	public OtherRoom getRoomToRemove() {
@@ -149,7 +149,7 @@ public class ListingController {
 	
 	public List<SelectItem> getAgents() {
 		agents = new ArrayList<>();
-		agentList = agentService.getAgents();
+        List<Agent> agentList = agentService.getAgents();
 		agentList.forEach(agent -> agents.add(new SelectItem(agent.getId().toString(), agent.getFirstName() + " " + agent.getLastName())));
 		return agents;
 	}
@@ -252,6 +252,7 @@ public class ListingController {
 	public void save() {
 		if(!validateListing())
 			return;
+		log.info("saving listing " + listing);
 		Agent agent = agentService.getAgent(new Long(agentId));
 		listing.setAgent(agent);
 		listingService.saveListing(listing);
@@ -300,7 +301,7 @@ public class ListingController {
 		}
 		
 		Set<ConstraintViolation<ListingDetail>> listingDetailViolations = validator.validate(listingDetail);
-		if(!listingDetailViolations.isEmpty()) {
+        if(!listingDetailViolations.isEmpty()) {
 			listingDetailViolations.forEach(violation -> {
 				String msg = violation.getPropertyPath() + " " + violation.getMessage();
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));

@@ -46,7 +46,7 @@ public class Agent {
 	private String email;
 	
 	public Agent() {
-		listings = new ArrayList<Listing>();
+		listings = new ArrayList<>();
 	}
 	
 	public Agent(Long id, List<Listing> listings, String firstName, String lastName, String contactNumber, String email) {

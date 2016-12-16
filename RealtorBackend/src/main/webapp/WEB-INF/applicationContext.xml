@@ -46,7 +46,7 @@
 	</bean>
 	
 	<!-- Scan for all of Spring components such as Spring Service -->
-	<context:component-scan base-package="net.tralfamadore"></context:component-scan>
+	<context:component-scan base-package="net.tralfamadore"/>
 	
 	<!-- Necessary to get the entity manager injected into the factory bean -->
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />	
@@ -71,7 +71,7 @@
 	<!-- Entity Manager Factory -->
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalEntityManagerFactoryBean">
-		<property name="persistenceUnitName" value="jpa-persistence"></property>
+		<property name="persistenceUnitName" value="jpa-persistence"/>
 		<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
 	</bean>
 	

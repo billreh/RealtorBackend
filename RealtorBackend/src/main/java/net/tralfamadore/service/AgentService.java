@@ -13,8 +13,12 @@ import net.tralfamadore.domain.Agent;
 public class AgentService {
 	private static Logger log = Logger.getLogger(AgentService.class);
 	
-	@Autowired
 	private AgentDao agentDao;
+
+	@Autowired
+	public AgentService(AgentDao agentDao) {
+		this.agentDao = agentDao;
+	}
 	
 	public List<Agent> getAgents() {
 		return agentDao.getAgents();
@@ -29,6 +33,7 @@ public class AgentService {
 	}
 
 	public void deleteAgent(Agent agent) {
+	    log.info("removing agent " + agent);
 		agentDao.deleteAgent(agent);
 	}
 

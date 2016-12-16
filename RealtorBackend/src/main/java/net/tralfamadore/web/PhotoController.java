@@ -87,6 +87,7 @@ public class PhotoController {
 	}
 	
 	public void mainPhotoUpload(FileUploadEvent event) {
+	    log.info("uploading photo " + event.getFile().getFileName());
 		String imgName;
 		try {
 			imgName = copyPhoto(event);
