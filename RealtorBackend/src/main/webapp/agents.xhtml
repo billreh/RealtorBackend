@@ -4,7 +4,6 @@
 	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
 	<ui:define name="content">
 		<h1 class="page-header ">Agents</h1>
-		<hr />
 		<h:form id="form">
 			<p:dataTable var="agent" value="#{agentController.agents}"
 				style="max-width: 900px;" selectionMode="single"
@@ -35,8 +34,7 @@
 				modal="true" showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="agentDetail" style="text-align:center;">
 					<p:panelGrid columns="2"
-						rendered="#{not empty agentController.agent}"
-						columnClasses="label,value">
+						rendered="#{not empty agentController.agent}">
 						<h:outputText value="Id:" />
 						<h:outputText value="#{agentController.agent.id}" />
 

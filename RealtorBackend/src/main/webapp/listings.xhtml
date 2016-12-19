@@ -4,7 +4,6 @@
 	xmlns:p="http://primefaces.org/ui" template="/templates/main.xhtml">
 	<ui:define name="content">
 		<h1 class="page-header ">Listings</h1>
-		<hr />
 		<h:form id="form">
 			<p:dataTable var="listing" value="#{listingController.listings}"
 				style="max-width: 1200px;" selectionMode="single"
@@ -41,10 +40,9 @@
 				showEffect="fade" hideEffect="fade" resizable="false">
 				<p:outputPanel id="listingDetail" style="text-align:center;">
 					<p:panelGrid columns="2"
-						rendered="#{not empty listingController.listing}"
-						columnClasses="label,value">
-						<h:outputText value="Address: " />
-						<h:outputText value="#{listingController.listing.address.street} #{listingController.listing.address.city} 
+						rendered="#{not empty listingController.listing}">
+						<h:outputText value="Address: "/>
+						<h:outputText value="#{listingController.listing.address.street} #{listingController.listing.address.city},
 								#{listingController.listing.address.state} #{listingController.listing.address.zipCode}" />
 
 						<h:outputText value="Price: " />
