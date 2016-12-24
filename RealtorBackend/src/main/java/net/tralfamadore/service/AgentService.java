@@ -1,13 +1,12 @@
 package net.tralfamadore.service;
 
-import java.util.List;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import net.tralfamadore.dao.AgentDao;
 import net.tralfamadore.domain.Agent;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.List;
 
 @Service
 public class AgentService {
@@ -15,7 +14,7 @@ public class AgentService {
 	
 	private AgentDao agentDao;
 
-	@Autowired
+	@Inject
 	public AgentService(AgentDao agentDao) {
 		this.agentDao = agentDao;
 	}

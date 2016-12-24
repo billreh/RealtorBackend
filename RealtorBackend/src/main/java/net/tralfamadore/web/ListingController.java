@@ -1,10 +1,12 @@
 package net.tralfamadore.web;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import net.tralfamadore.domain.*;
+import net.tralfamadore.service.AgentService;
+import net.tralfamadore.service.ListingService;
+import org.apache.log4j.Logger;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -12,24 +14,15 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
-
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Controller;
-
-import net.tralfamadore.domain.Address;
-import net.tralfamadore.domain.Agent;
-import net.tralfamadore.domain.ExteriorFeature;
-import net.tralfamadore.domain.Listing;
-import net.tralfamadore.domain.ListingDetail;
-import net.tralfamadore.domain.OtherRoom;
-import net.tralfamadore.service.AgentService;
-import net.tralfamadore.service.ListingService;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @ManagedBean
 @SessionScoped
@@ -56,7 +49,7 @@ public class ListingController {
 	private boolean newListing = false;
 	private boolean notNew = false;
 	
-	@Autowired
+	@Inject
 	public ListingController(ListingService listingService, AgentService agentService, Validator validator) {
 		this.listingService = listingService;
 		this.agentService = agentService;

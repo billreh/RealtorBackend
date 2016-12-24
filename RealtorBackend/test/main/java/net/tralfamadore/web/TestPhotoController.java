@@ -5,6 +5,7 @@ import static org.mockito.Matchers.argThat;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
+import static org.powermock.api.mockito.PowerMockito.mockStatic;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.context.ExternalContext;
@@ -67,7 +68,7 @@ public class TestPhotoController {
 	@Test
 	@PrepareForTest({FacesContext.class})
 	public void testBack() throws Exception {
-		PowerMockito.mockStatic(FacesContext.class);
+		mockStatic(FacesContext.class);
 		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
 		when(facesContext.getExternalContext()).thenReturn(externalContext);
 		when(externalContext.getResponse()).thenReturn(response);
@@ -80,7 +81,7 @@ public class TestPhotoController {
 	@Test
 	@PrepareForTest({FacesContext.class})
 	public void testMainPhotoUpload() throws Exception {
-		PowerMockito.mockStatic(FacesContext.class);
+		mockStatic(FacesContext.class);
 		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
 		when(fileUploadEvent.getFile()).thenReturn(uploadedFile);
 		when(uploadedFile.getFileName()).thenReturn("image.jpg");
@@ -112,7 +113,7 @@ public class TestPhotoController {
 	@Test
 	@PrepareForTest({FacesContext.class})
 	public void testFileUploadListener() throws Exception {
-		PowerMockito.mockStatic(FacesContext.class);
+		mockStatic(FacesContext.class);
 		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
 		when(fileUploadEvent.getFile()).thenReturn(uploadedFile);
 		when(uploadedFile.getFileName()).thenReturn("image.jpg");
@@ -145,7 +146,7 @@ public class TestPhotoController {
 	@Test
 	@PrepareForTest({FacesContext.class})
 	public void testRemovePhoto() {
-		PowerMockito.mockStatic(FacesContext.class);
+		mockStatic(FacesContext.class);
 		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
 		Photo photo = new Photo(listing, "bedroom.jpg");
 		photo.setId(1L);
