@@ -25,13 +25,13 @@
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-impl</artifactId>
-			<version>2.2.4</version>
+			<version>2.2.13</version>
 		</dependency>
 		<!-- Faces Library -->
 		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
-			<version>2.2.4</version>
+			<version>2.2.13</version>
 		</dependency>
 		<!-- Primefaces Version 5 -->
 		<dependency>
@@ -92,7 +92,19 @@
 		    <artifactId>spring-context-support</artifactId>
 		    <version>4.3.2.RELEASE</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/javax.mail/mail -->
+		<!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-jpa -->
+		<dependency>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
+			<version>1.10.1.RELEASE</version>
+		</dependency>
+        <!-- https://mvnrepository.com/artifact/org.springframework.data/spring-data-rest-webmvc -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-rest-webmvc</artifactId>
+            <version>2.5.6.RELEASE</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.mail/mail -->
 		<dependency>
 		    <groupId>javax.mail</groupId>
 		    <artifactId>mail</artifactId>
