@@ -8,12 +8,12 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.ConstraintViolation;
 import javax.validation.Validator;
 
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import net.tralfamadore.domain.Agent;
@@ -25,15 +25,13 @@ import net.tralfamadore.service.AgentService;
 public class AgentController {
 	private static Logger log = Logger.getLogger(AgentController.class);
 	
-//	@Autowired
 	private AgentService agentService;
 
-//	@Autowired
 	private Validator validator;
 	
 	private Agent agent;
-	
-	@Autowired
+
+	@Inject
 	public AgentController(AgentService agentService, Validator validator) {
 		this.agentService = agentService;
 		this.validator = validator;

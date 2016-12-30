@@ -1,23 +1,21 @@
 package net.tralfamadore.web;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import net.tralfamadore.domain.FeaturedListing;
+import net.tralfamadore.domain.Listing;
+import net.tralfamadore.service.ListingService;
+import org.apache.log4j.Logger;
+import org.primefaces.event.DragDropEvent;
+import org.springframework.stereotype.Controller;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
-
-import org.apache.log4j.Logger;
-import org.primefaces.event.DragDropEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-
-import net.tralfamadore.domain.FeaturedListing;
-import net.tralfamadore.domain.Listing;
-import net.tralfamadore.service.ListingService;
+import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 @ManagedBean
 @SessionScoped
@@ -31,7 +29,7 @@ public class FeaturedListingController {
 	
 	private FeaturedListing listingToRemove;
 	
-	@Autowired
+	@Inject
 	public FeaturedListingController(ListingService listingService) {
 		this.listingService = listingService;
 	}

@@ -1,24 +1,17 @@
 package net.tralfamadore.web;
 
-import java.util.List;
-
-import net.tralfamadore.dto.*;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-
 import net.tralfamadore.domain.Agent;
 import net.tralfamadore.domain.Listing;
+import net.tralfamadore.dto.*;
 import net.tralfamadore.service.ListingService;
 import net.tralfamadore.service.MailService;
+import org.apache.log4j.Logger;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+
+import javax.inject.Inject;
+import java.util.List;
 
 @RestController
 @EnableWebMvc
@@ -29,7 +22,7 @@ public class RealtyRestController {
 	
 	private MailService mailService;
 	
-	@Autowired
+	@Inject
 	public RealtyRestController(ListingService listingService, MailService mailService) {
 		this.listingService = listingService;
 		this.mailService = mailService;

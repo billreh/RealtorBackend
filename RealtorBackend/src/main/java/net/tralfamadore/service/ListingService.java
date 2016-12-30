@@ -1,23 +1,18 @@
 package net.tralfamadore.service;
 
-import static java.util.stream.Collectors.toList;
-import java.util.List;
-
-import net.tralfamadore.dto.SearchDto;
-import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import net.tralfamadore.dao.ListingDao;
-import net.tralfamadore.domain.ExteriorFeature;
-import net.tralfamadore.domain.FeaturedListing;
-import net.tralfamadore.domain.Listing;
-import net.tralfamadore.domain.ListingDetail;
-import net.tralfamadore.domain.OtherRoom;
-import net.tralfamadore.domain.Photo;
+import net.tralfamadore.domain.*;
 import net.tralfamadore.dto.FeaturedListingDto;
 import net.tralfamadore.dto.ListingDetailDto;
 import net.tralfamadore.dto.ListingListDto;
+import net.tralfamadore.dto.SearchDto;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Service;
+
+import javax.inject.Inject;
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 
 @Service
 public class ListingService {
@@ -25,7 +20,7 @@ public class ListingService {
 	
 	private ListingDao listingDao;
 
-    @Autowired
+    @Inject
     public ListingService(ListingDao listingDao) {
         this.listingDao = listingDao;
     }

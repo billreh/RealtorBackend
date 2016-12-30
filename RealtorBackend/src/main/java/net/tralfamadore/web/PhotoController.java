@@ -1,25 +1,23 @@
 package net.tralfamadore.web;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Objects;
+import net.tralfamadore.domain.Listing;
+import net.tralfamadore.domain.Photo;
+import net.tralfamadore.service.ListingService;
+import org.apache.log4j.Logger;
+import org.primefaces.event.FileUploadEvent;
+import org.springframework.context.annotation.PropertySource;
+import org.springframework.core.env.Environment;
+import org.springframework.stereotype.Controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-import org.primefaces.event.FileUploadEvent;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Controller;
-
-import net.tralfamadore.domain.Listing;
-import net.tralfamadore.domain.Photo;
-import net.tralfamadore.service.ListingService;
+import java.io.File;
+import java.io.IOException;
+import java.util.Objects;
 
 @ManagedBean
 @SessionScoped
@@ -40,7 +38,7 @@ public class PhotoController {
 	
 	private Photo photoToRemove;
 
-	@Autowired
+	@Inject
 	public PhotoController(ListingService listingService, Environment env, PhotoFileHelper photoFileService) {
 		this.listingService = listingService;
 		this.env = env;
