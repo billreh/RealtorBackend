@@ -1,7 +1,6 @@
 package net.tralfamadore.web;
 
-import static org.mockito.Matchers.anyInt;
-import static org.mockito.Matchers.argThat;
+import static org.mockito.Matchers.*;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.junit.Assert.*;
@@ -48,10 +47,10 @@ public class TestPhotoController {
 	private HttpServletResponse response;
 	
 	@Mock
-	FileUploadEvent fileUploadEvent;
+	private FileUploadEvent fileUploadEvent;
 	
 	@Mock
-	UploadedFile uploadedFile;
+	private UploadedFile uploadedFile;
 	
 	private Listing listing;
 	
@@ -119,7 +118,7 @@ public class TestPhotoController {
 		when(env.getProperty("remote.base")).thenReturn("/remote");
 		when(env.getProperty("image.base")).thenReturn("/image");
 		when(env.getProperty("source.base")).thenReturn("/source");
-		when(photoFileService.writeUploadedFile(fileUploadEvent, "/remote/" + listing.getId())).thenReturn("image.jpg");
+		when(photoFileService.writeUploadedFile(anyObject(), anyString())).thenReturn("image.jpg");
 		when(listingService.getListing(anyInt())).thenReturn(listing);
 		photoController.setListingId(listing.getId());
 		assertEquals(photoController.getListing().getPhotos().size(), 1);
