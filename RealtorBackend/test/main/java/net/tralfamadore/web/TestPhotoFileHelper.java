@@ -1,21 +1,19 @@
 package net.tralfamadore.web;
 
-import static org.mockito.Mockito.*;
-
-import java.io.File;
-import java.io.IOException;
-
-import static org.junit.Assert.*;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.invocation.InvocationOnMock;
-import org.mockito.stubbing.Answer;
 import org.powermock.modules.junit4.PowerMockRunner;
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+
+import java.io.File;
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 public class TestPhotoFileHelper {
