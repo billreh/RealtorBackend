@@ -81,8 +81,8 @@ public class TestPhotoController {
 	public void testMainPhotoUpload() throws Exception {
 		PowerMockito.mockStatic(FacesContext.class);
 		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
-		when(fileUploadEvent.getFile()).thenReturn(uploadedFile);
 		when(uploadedFile.getFileName()).thenReturn("image.jpg");
+		when(fileUploadEvent.getFile()).thenReturn(uploadedFile);
 		when(env.getProperty("remote.base")).thenReturn("/remote");
 		when(env.getProperty("image.base")).thenReturn("/image");
 		when(env.getProperty("source.base")).thenReturn("/source");

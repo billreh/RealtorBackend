@@ -36,15 +36,12 @@ public class TestPhotoFileHelper {
 	public void testWriteUploadedFile() throws Exception {
 		when(fileUploadEvent.getFile()).thenReturn(uploadedFile);
 		when(uploadedFile.getFileName()).thenReturn("image.jpg");
-		doAnswer(new Answer<Void>() {
-			@Override
-			public Void answer(InvocationOnMock invocation) throws Throwable {
-				Object[] args = invocation.getArguments();
-				assertEquals(args.length, 1);
-				assertEquals(args[0], "/tmp/image.jpg");
-				return null;
-			}
-		}).when(uploadedFile).write(anyString());
+		doAnswer(invocation -> {
+            Object[] args = invocation.getArguments();
+            assertEquals(args.length, 1);
+            assertEquals(args[0], "/tmp"  + File.separator + "image.jpg");
+            return null;
+        }).when(uploadedFile).write(anyString());
 		
 		String name = photoHelper.writeUploadedFile(fileUploadEvent, "/tmp");
 		assertEquals(name, "image.jpg");
@@ -53,16 +50,19 @@ public class TestPhotoFileHelper {
 	@Test
 	public void testCopyFile() throws IOException {
 		File file = new File("./file");
-		file.createNewFile();
+		if(!file.createNewFile())
+		    throw new IOException("Can't create file");
 		
 		photoHelper.copyFile(file.getAbsolutePath(), "/tmp", file.getName());
 		
-		file.delete();
-		
+		if(!file.delete())
+            throw new IOException("Can't delete file");
+
 		file = new File("/tmp", "file");
 		
 		assertTrue(file.exists());
-		
-		file.delete();
+
+        if(!file.delete())
+            throw new IOException("Can't delete file");
 	}
 }
