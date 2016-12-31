@@ -1,25 +1,19 @@
 package net.tralfamadore.dao;
 
-import java.util.List;
+import net.tralfamadore.domain.ExteriorFeature;
+import net.tralfamadore.domain.Listing;
+import net.tralfamadore.domain.ListingDetail;
+import net.tralfamadore.dto.SearchDto;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
-
-import net.tralfamadore.dto.SearchDto;
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
-
-import net.tralfamadore.domain.ExteriorFeature;
-import net.tralfamadore.domain.FeaturedListing;
-import net.tralfamadore.domain.Listing;
-import net.tralfamadore.domain.ListingDetail;
+import java.util.List;
 
 @Repository
 public class ListingDaoImpl implements ListingDao {
-	private static Logger log = Logger.getLogger(ListingDaoImpl.class);
-
 	@PersistenceContext
 	private EntityManager em;
 
@@ -43,48 +37,6 @@ public class ListingDaoImpl implements ListingDao {
 
 		em.persist(listing);
 		return listing.getId();
-	}
-	
-	@Override
-	@Transactional
-	public List<Listing> getListings() {
-		log.info("fetching listings list");
-		return em.createQuery("from Listing", Listing.class).getResultList();
-	}
-	
-	@Override
-	@Transactional
-	public void deleteListing(Listing listing) {
-		em.remove(em.contains(listing) ? listing : em.merge(listing));
-	}
-
-	@Override
-	@Transactional
-	public void updateListing(Listing listing) {
-		Listing l = em.find(Listing.class, listing.getId());
-		l.setAddress(listing.getAddress());
-		l.setAgent(listing.getAgent());
-		l.setBaths(listing.getBaths());
-		l.setBedrooms(listing.getBedrooms());
-		l.setHouseType(listing.getHouseType());
-		l.setPrice(listing.getPrice());
-		l.setSquareFeet(listing.getSquareFeet());
-		l.setMainPhoto(listing.getMainPhoto());
-		l.setPhotos(listing.getPhotos());
-		em.merge(l);
-	}
-
-	@Override
-	public Listing getListing(long listingId) {
-		return em.find(Listing.class, listingId);
-	}
-
-	@Override
-	@Transactional
-	public ListingDetail getListingDetail(long listingId) {
-		ListingDetail listingDetail = em.createQuery("from ListingDetail where listing_id = :id", ListingDetail.class).setParameter("id", listingId).getSingleResult();
-		em.refresh(listingDetail);
-		return listingDetail;
 	}
 	
 	@Override
@@ -132,30 +84,6 @@ public class ListingDaoImpl implements ListingDao {
 	}
 	
 	@Override
-	@Transactional
-	public void deleteListingDetail(ListingDetail listingDetail) {
-		em.remove(em.contains(listingDetail) ? listingDetail : em.merge(listingDetail));
-	}
-	
-	@Override
-	public List<FeaturedListing> getFeaturedListings() {
-		return em.createQuery("from FeaturedListing", FeaturedListing.class).getResultList();
-	}
-
-	@Override
-	@Transactional
-	public long saveFeaturedListing(FeaturedListing featuredListing) {
-		em.persist(featuredListing);
-		return featuredListing.getId();
-	}
-
-	@Override
-	@Transactional
-	public void deleteFeaturedListing(FeaturedListing featuredListing) {
-		em.remove(em.contains(featuredListing) ? featuredListing : em.merge(featuredListing));
-	}
-
-	@Override
 	public List<Listing> getListings(SearchDto searchDto) {
 	    String sql = "from Listing where 1 = 1";
 	    if(searchDto.getBathrooms() != 0)
@@ -186,6 +114,7 @@ public class ListingDaoImpl implements ListingDao {
 		if(searchDto.getPrice() != 0)
 			query.setParameter("price", searchDto.getPrice());
 
+		//noinspection unchecked
 		return query.getResultList();
 	}
 }

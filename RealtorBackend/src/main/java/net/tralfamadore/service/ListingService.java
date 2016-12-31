@@ -1,6 +1,9 @@
 package net.tralfamadore.service;
 
+import net.tralfamadore.repository.FeaturedListingRepository;
 import net.tralfamadore.dao.ListingDao;
+import net.tralfamadore.repository.ListingDetailRepository;
+import net.tralfamadore.repository.ListingRepository;
 import net.tralfamadore.domain.*;
 import net.tralfamadore.dto.FeaturedListingDto;
 import net.tralfamadore.dto.ListingDetailDto;
@@ -18,35 +21,46 @@ import static java.util.stream.Collectors.toList;
 public class ListingService {
 	private static Logger log = Logger.getLogger(ListingService.class);
 	
-	private ListingDao listingDao;
+	private final ListingDao listingDao;
+	private final ListingRepository listingRepository;
+	private final ListingDetailRepository listingDetailRepository;
+	private final FeaturedListingRepository featuredListingRepository;
 
     @Inject
-    public ListingService(ListingDao listingDao) {
+    public ListingService(ListingDao listingDao,
+						  ListingRepository listingRepository,
+						  ListingDetailRepository listingDetailRepository,
+						  FeaturedListingRepository featuredListingRepository)
+	{
         this.listingDao = listingDao;
+        this.listingRepository = listingRepository;
+        this.listingDetailRepository = listingDetailRepository;
+        this.featuredListingRepository = featuredListingRepository;
     }
 
     public List<Listing> getListings() {
-		return listingDao.getListings();
+        log.info("fetching listings");
+        return listingRepository.findAll();
 	}
 	
 	public long saveListing(Listing listing) {
-		return listingDao.saveListing(listing);
+        return listingDao.saveListing(listing);
 	}
 	
 	public void updateListing(Listing listing) {
-		listingDao.updateListing(listing);
+        listingRepository.save(listing);
 	}
 	
 	public Listing getListing(long listingId) {
-		return listingDao.getListing(listingId);
+        return listingRepository.findOne(listingId);
 	}
 	
 	public void deleteListing(Listing listing) {
-		listingDao.deleteListing(listing);
+        listingRepository.delete(listing);
 	}
 	
 	public ListingDetail getListingDetail(long listingId) {
-		return listingDao.getListingDetail(listingId);
+        return listingDetailRepository.findByListingId(listingId);
 	}
 	
 	public void updateListingDetail(ListingDetail listingDetail) {
@@ -58,19 +72,19 @@ public class ListingService {
 	}
 	
 	public void deleteListingDetail(ListingDetail listingDetail) {
-		listingDao.deleteListingDetail(listingDetail);
+        listingDetailRepository.delete(listingDetail);
 	}
 	
 	public List<FeaturedListing> getFeaturedListings() {
-		return listingDao.getFeaturedListings();
+        return featuredListingRepository.findAll();
 	}
 	
 	public long saveFeaturedListing(FeaturedListing featuredListing) {
-		return listingDao.saveFeaturedListing(featuredListing);
+        return featuredListingRepository.save(featuredListing).getId();
 	}
 	
 	public void deleteFeaturedListing(FeaturedListing featuredListing) {
-		listingDao.deleteFeaturedListing(featuredListing);
+        featuredListingRepository.delete(featuredListing);
 	}
 	
 	public List<ListingListDto> getListingListDtos() {
@@ -98,7 +112,7 @@ public class ListingService {
 	}
 	
 	public List<FeaturedListingDto> getFeaturedListingDtos() {
-		List<FeaturedListing> featuredListings = listingDao.getFeaturedListings();
+		List<FeaturedListing> featuredListings = getFeaturedListings();
 		return featuredListings.stream().map(fl -> new FeaturedListingDto(fl.getListing().getId(), fl.getListing().getMainPhoto())).collect(toList());
 	}
 

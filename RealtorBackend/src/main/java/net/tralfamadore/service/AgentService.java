@@ -1,7 +1,7 @@
 package net.tralfamadore.service;
 
-import net.tralfamadore.dao.AgentDao;
 import net.tralfamadore.domain.Agent;
+import net.tralfamadore.repository.AgentRepository;
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
 
@@ -12,31 +12,31 @@ import java.util.List;
 public class AgentService {
 	private static Logger log = Logger.getLogger(AgentService.class);
 	
-	private AgentDao agentDao;
+	private AgentRepository agentRepository;
 
 	@Inject
-	public AgentService(AgentDao agentDao) {
-		this.agentDao = agentDao;
+	public AgentService(AgentRepository agentRepository) {
+		this.agentRepository = agentRepository;
 	}
 	
 	public List<Agent> getAgents() {
-		return agentDao.getAgents();
+		return agentRepository.findAll();
 	}
 	
 	public long saveAgent(Agent agent) {
-		return agentDao.saveAgent(agent);
+	    return agentRepository.save(agent).getId();
 	}
 	
 	public  void updateAgent(Agent agent) {
-		agentDao.updateAgent(agent);
+	    agentRepository.save(agent);
 	}
 
 	public void deleteAgent(Agent agent) {
 	    log.info("removing agent " + agent);
-		agentDao.deleteAgent(agent);
+	    agentRepository.delete(agent);
 	}
 
 	public Agent getAgent(Long id) {
-		return agentDao.getAgent(id);
+	    return agentRepository.findOne(id);
 	}
 }

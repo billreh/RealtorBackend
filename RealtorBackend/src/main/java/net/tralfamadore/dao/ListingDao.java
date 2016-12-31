@@ -12,27 +12,9 @@ public interface ListingDao {
 
 	long saveListing(Listing listing);
 
-	List<Listing> getListings();
-
-	void deleteListing(Listing listing);
-
-	void updateListing(Listing listing);
-
-	Listing getListing(long listingId);
-
-	ListingDetail getListingDetail(long listingId);
-
 	void updateListingDetail(ListingDetail listingDetail);
-	
+
 	long saveListingDetail(ListingDetail listingDetail);
-	
-	void deleteListingDetail(ListingDetail listingDetail);
-
-	List<FeaturedListing> getFeaturedListings();
-
-	long saveFeaturedListing(FeaturedListing featuredListing);
-
-	void deleteFeaturedListing(FeaturedListing featuredListing);
 
     List<Listing> getListings(SearchDto searchDto);
 }
