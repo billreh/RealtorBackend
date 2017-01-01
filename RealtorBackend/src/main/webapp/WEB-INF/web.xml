@@ -8,7 +8,7 @@
     </context-param>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>net.tralfamadore.AppConfig</param-value>
+        <param-value>net.tralfamadore.config.AppConfig</param-value>
     </context-param>
 	<servlet>
 		<servlet-name>rest</servlet-name>

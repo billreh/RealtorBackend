@@ -3,7 +3,6 @@ package net.tralfamadore.web;
 import net.tralfamadore.domain.*;
 import net.tralfamadore.service.AgentService;
 import net.tralfamadore.service.ListingService;
-import org.apache.log4j.Logger;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Controller;
@@ -16,26 +15,19 @@ import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 @ManagedBean
 @SessionScoped
 @Controller
 public class ListingController {
-	private static Logger log = Logger.getLogger(ListingController.class);
-	
 	private ListingService listingService;
 
 	private AgentService agentService;
 
-	private Validator validator;
-	
 	private String title;
 	private Listing listing;
 	private ListingDetail listingDetail;
@@ -50,10 +42,9 @@ public class ListingController {
 	private boolean notNew = false;
 	
 	@Inject
-	public ListingController(ListingService listingService, AgentService agentService, Validator validator) {
+	public ListingController(ListingService listingService, AgentService agentService) {
 		this.listingService = listingService;
 		this.agentService = agentService;
-		this.validator = validator;
 	}
 	
 	@PostConstruct
@@ -245,7 +236,6 @@ public class ListingController {
 	public void save() {
 		if(!validateListing())
 			return;
-		log.info("saving listing " + listing);
 		Agent agent = agentService.getAgent(new Long(agentId));
 		listing.setAgent(agent);
 		listingService.saveListing(listing);
@@ -267,41 +257,13 @@ public class ListingController {
 		listing.setAgent(null);
 		listingService.deleteListing(listing);
 	}
-	
+
 	private boolean validateListing() {
-		// Check for validation errors
-		Set<ConstraintViolation<Address>> violations = validator.validate(listing.getAddress());
-		if(!violations.isEmpty()) {
-			violations.forEach(violation -> {
-				String msg = violation.getPropertyPath() + " " + violation.getMessage();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-			});
-			return false;
-		}
-		
 		if(agentId == null || agentId.isEmpty()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("You must specify an agent"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                    "You must specify an agent", null));
 			return false;
 		}
-		
-		Set<ConstraintViolation<Listing>> listingViolations = validator.validate(listing);
-		if(!listingViolations.isEmpty()) {
-			listingViolations.forEach(violation -> {
-				String msg = violation.getPropertyPath() + " " + violation.getMessage();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-			});
-			return false;
-		}
-		
-		Set<ConstraintViolation<ListingDetail>> listingDetailViolations = validator.validate(listingDetail);
-        if(!listingDetailViolations.isEmpty()) {
-			listingDetailViolations.forEach(violation -> {
-				String msg = violation.getPropertyPath() + " " + violation.getMessage();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-			});
-			return false;
-		}
-	
 		return true;
 	}
 }

@@ -14,13 +14,15 @@
 						<p:outputLabel value="Street:"/>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.address.street}"/>
+						<p:inputText value="#{listingController.listing.address.street}"
+                                     validatorMessage="Street must be between 5 and 50 characters"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="City:"/>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.address.city}"/>
+						<p:inputText id="city" value="#{listingController.listing.address.city}"
+                                     validatorMessage="City must be at least 3 characters"/>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -28,13 +30,15 @@
 						<p:outputLabel value="State:"/>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.address.state}"/>
+						<p:inputText value="#{listingController.listing.address.state}"
+                                     validatorMessage="State must be 2 characters"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Zip Code:"/>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.address.zipCode}"/>
+						<p:inputText value="#{listingController.listing.address.zipCode}"
+                                     validatorMessage="Zip Code must be 5 digits"/>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -42,7 +46,8 @@
 						<p:outputLabel value="Price:"/>
 					</p:column>
 					<p:column>
-						<p:inputText id="price" value="#{listingController.listing.price}"/>
+						<p:inputText id="price" value="#{listingController.listing.price}"
+                                     validatorMessage="Price must be at least 1000"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Home Type:"/>
@@ -56,14 +61,15 @@
 						<p:outputLabel value="Bathrooms:"/>
 					</p:column>
 					<p:column>
-						<p:spinner value="#{listingController.listing.baths}"
-							stepFactor="0.5" />
+						<p:spinner value="#{listingController.listing.baths}" stepFactor="0.5"
+                                   validatorMessage="Bathrooms must be at least 1"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Bedrooms:"/>
 					</p:column>
 					<p:column>
-						<p:spinner value="#{listingController.listing.bedrooms}" />
+						<p:spinner value="#{listingController.listing.bedrooms}"
+                            validatorMessage="Bedrooms must be at least 1"/>
 					</p:column>
 				</p:row>
 				<p:row>
@@ -71,7 +77,8 @@
 						<p:outputLabel value="Square Feet:"/>
 					</p:column>
 					<p:column>
-						<p:inputText value="#{listingController.listing.squareFeet}"/>
+						<p:inputText value="#{listingController.listing.squareFeet}"
+                                     validatorMessage="Square Feet must be at least 100"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Agent:"/>
@@ -83,8 +90,6 @@
 							<f:selectItems value="#{listingController.agents}" />
 						</p:selectOneMenu>
 					</p:column>
-				</p:row>
-				<p:row>
 				</p:row>
 				<p:row>
 					<p:column colspan="1">
@@ -149,7 +154,8 @@
 						<p:outputLabel value="Stories:"/>
 					</p:column>
 					<p:column>
-						<p:spinner value="#{listingController.listingDetail.stories}" />
+						<p:spinner value="#{listingController.listingDetail.stories}"
+                                   validatorMessage="Stories must be at least 1"/>
 					</p:column>
 					<p:column>
 						<p:outputLabel value="Exterior:"/>
@@ -206,12 +212,11 @@
 							<p:outputLabel value="Feature: " />
 						</p:column>
 						<p:column>
-							<p:inputText value="#{listingController.exteriorFeature}" />
+							<p:inputText  value="#{listingController.exteriorFeature}" />
 						</p:column>
 						<p:column>
 							<p:commandButton icon="fa fa-plus" value="Add"
-								action="#{listingController.addFeature}"
-								update="features featureGrid" />
+								action="#{listingController.addFeature}" update="features featureGrid" />
 						</p:column>
 					</p:row>
 				</p:panelGrid>
@@ -274,7 +279,7 @@
 			</p:commandButton>
 			<div style="height: 20px;"></div>
 
-			<p:commandButton value="Back"
+			<p:commandButton value="Back" immediate="true"
 				action="#{listingController.back}" ajax="false" />
 			<p:commandButton value="Update" action="#{listingController.edit}" style="float: right;"
 				update="messages" rendered="#{!listingController.newListing}" id="updateButton"/>

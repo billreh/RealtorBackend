@@ -28,7 +28,7 @@ public class TestAddress {
 		assertTrue(v.isEmpty());
 		address.setZipCode("123");
 		v = validator.validate(address);
-		assertEquals(v.iterator().next().getMessage(), "size must be between 5 and 5");
+		assertEquals(v.iterator().next().getMessage(), "must match \"\\d{5}\"");
 		address.setZipCode("12345");
 		address.setCity("");
 		v = validator.validate(address);

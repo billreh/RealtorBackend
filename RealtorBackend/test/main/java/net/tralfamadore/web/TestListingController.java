@@ -62,7 +62,7 @@ public class TestListingController {
 	public void init() {
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
         validator = factory.getValidator();
-		listingController = new ListingController(listingService, agentService, validator);
+		listingController = new ListingController(listingService, agentService);
 		listings.add(ListingProvider.getListing());
 		listingDetail = ListingProvider.getListingDetail();
 		agents.add(listings.get(0).getAgent());

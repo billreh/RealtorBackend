@@ -1,8 +1,9 @@
 package net.tralfamadore.web;
 
-import java.io.IOException;
-import java.util.List;
-import java.util.Set;
+import net.tralfamadore.domain.Agent;
+import net.tralfamadore.service.AgentService;
+import org.apache.log4j.Logger;
+import org.springframework.stereotype.Controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
@@ -10,14 +11,8 @@ import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-
-import org.apache.log4j.Logger;
-import org.springframework.stereotype.Controller;
-
-import net.tralfamadore.domain.Agent;
-import net.tralfamadore.service.AgentService;
+import java.io.IOException;
+import java.util.List;
 
 @ManagedBean
 @SessionScoped
@@ -27,14 +22,13 @@ public class AgentController {
 	
 	private AgentService agentService;
 
-	private Validator validator;
-	
 	private Agent agent;
 
+	private boolean newAgent;
+
 	@Inject
-	public AgentController(AgentService agentService, Validator validator) {
+	public AgentController(AgentService agentService) {
 		this.agentService = agentService;
-		this.validator = validator;
 	}
 
 	public List<Agent> getAgents() {
@@ -48,10 +42,15 @@ public class AgentController {
 	public void setAgent(Agent agent) {
 		this.agent = agent;
 	}
-	
-	public void gotoEdit() {
+
+    public boolean isNewAgent() {
+        return newAgent;
+    }
+
+    public void gotoEdit() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+		newAgent = false;
 		try {
 			response.sendRedirect("editAgent.xhtml");
 		} catch (IOException e) {
@@ -62,9 +61,10 @@ public class AgentController {
 	public void addAgent() {
 		FacesContext context = FacesContext.getCurrentInstance();
 		HttpServletResponse response = (HttpServletResponse)context.getExternalContext().getResponse();
+        newAgent = true;
 		agent = new Agent();
 		try {
-			response.sendRedirect("addAgent.xhtml");
+			response.sendRedirect("editAgent.xhtml");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -82,9 +82,6 @@ public class AgentController {
 	}
 	
 	public void save() {
-		if(!validateAgent())
-			return;
-
 		log.info("saving agent " + agent);
 		long id = agentService.saveAgent(agent);
 		
@@ -95,9 +92,6 @@ public class AgentController {
 	}
 	
 	public void edit() {
-		if(!validateAgent())
-			return;
-		
 		agentService.updateAgent(agent);
 		
 		// Add message
@@ -108,19 +102,5 @@ public class AgentController {
 	public void remove() {
 		agentService.deleteAgent(agent);
 		agent = new Agent();
-	}
-	
-	private boolean validateAgent() {
-		// Check for validation errors
-		Set<ConstraintViolation<Agent>> violations = validator.validate(agent);
-		if(!violations.isEmpty()) {
-			violations.forEach(violation -> {
-				String msg = violation.getPropertyPath() + " " + violation.getMessage();
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(msg));
-			});
-			return false;
-		}
-	
-		return true;
 	}
 }

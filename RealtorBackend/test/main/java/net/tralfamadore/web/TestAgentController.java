@@ -1,19 +1,7 @@
 package net.tralfamadore.web;
 
-import static org.mockito.Matchers.argThat;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-
-import java.util.ArrayList;
-
-import javax.faces.application.FacesMessage;
-import javax.faces.context.ExternalContext;
-import javax.faces.context.FacesContext;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
-
+import net.tralfamadore.domain.Agent;
+import net.tralfamadore.service.AgentService;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -24,8 +12,17 @@ import org.powermock.api.mockito.PowerMockito;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import net.tralfamadore.domain.Agent;
-import net.tralfamadore.service.AgentService;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.ExternalContext;
+import javax.faces.context.FacesContext;
+import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.argThat;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(PowerMockRunner.class)
 public class TestAgentController {
@@ -38,13 +35,10 @@ public class TestAgentController {
 	@Mock
 	private HttpServletResponse response;
 	private AgentController agentController;
-	private Validator validator;
-	
+
 	@Before
 	public void setup() {
-		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        validator = factory.getValidator();
-		agentController = new AgentController(agentService, validator);
+		agentController = new AgentController(agentService);
 	}
 	
 	@After
@@ -61,6 +55,7 @@ public class TestAgentController {
 		when(externalContext.getResponse()).thenReturn(response);
 		agentController.gotoEdit();
 		verify(response).sendRedirect("editAgent.xhtml");
+		assertFalse(agentController.isNewAgent());
 	}
 	
 	@Test
@@ -71,7 +66,8 @@ public class TestAgentController {
 		when(facesContext.getExternalContext()).thenReturn(externalContext);
 		when(externalContext.getResponse()).thenReturn(response);
 		agentController.addAgent();
-		verify(response).sendRedirect("addAgent.xhtml");
+		verify(response).sendRedirect("editAgent.xhtml");
+		assertTrue(agentController.isNewAgent());
 	}
 	
 	@Test
@@ -86,33 +82,7 @@ public class TestAgentController {
 		
 		verify(response).sendRedirect("agents.xhtml");
 	}
-	
-	@Test
-	@PrepareForTest({FacesContext.class})
-	public void testSaveInvalidFirstName() {
-		PowerMockito.mockStatic(FacesContext.class);
-		Agent agent = new Agent(null, new ArrayList<>(), "", "Parker", "215-222-1212", "bparker@matrix.gs");
-		agentController.setAgent(agent);
-		
-		when(FacesContext.getCurrentInstance()).thenReturn(facesContext);
-		when(agentService.saveAgent(agent)).thenReturn(1L);
-		
-		agentController.save();
-		verify(facesContext).addMessage(argThat(
-				new ArgumentMatcher<String>() {
-					@Override
-					public boolean matches(Object o) {
-						return o == null;
-					}
-				}), argThat(
-				new ArgumentMatcher<FacesMessage>() {
-					@Override
-					public boolean matches(Object o) {
-						return ((FacesMessage)o).getDetail().equals("firstName size must be between 1 and 100");
-					}
-				}));
-	}
-	
+
 	@Test
 	@PrepareForTest({FacesContext.class})
 	public void testSave() {

@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 @Entity
@@ -33,7 +34,7 @@ public class Address {
 	private String state;
 	
 	@NotNull
-	@Size(min = 5, max = 5)
+	@Pattern(regexp = "\\d{5}")
 	@Column(name = "zip_code")
 	private String zipCode;
 	

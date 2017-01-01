@@ -1,5 +1,8 @@
 package net.tralfamadore.domain;
 
+import org.hibernate.validator.constraints.NotBlank;
+import org.hibernate.validator.constraints.NotEmpty;
+
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -36,6 +39,7 @@ public class Listing {
 	private String houseType;
 	
 	@Column(name = "bathrooms")
+	@DecimalMin(value = "1")
 	private float baths;
 	
 	@Column

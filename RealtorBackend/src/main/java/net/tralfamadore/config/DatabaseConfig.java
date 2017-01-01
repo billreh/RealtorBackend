@@ -1,4 +1,4 @@
-package net.tralfamadore;
+package net.tralfamadore.config;
 
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.context.annotation.Bean;
@@ -45,8 +45,8 @@ public class DatabaseConfig {
 		entityManagerFactory.setPackagesToScan("net.tralfamadore");
 		entityManagerFactory.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		Properties props = new Properties();
-		props.put("hibernate.show_sql", "true");
-        props.put("hibernate.format_sql", "true");
+//		props.put("hibernate.show_sql", "true");
+//        props.put("hibernate.format_sql", "true");
 		props.put("hibernate.dialect", "org.hibernate.dialect.MySQLDialect");
 		props.put("hibernate.id.new_generator_mappings", "false");
 		entityManagerFactory.setJpaProperties(props);
