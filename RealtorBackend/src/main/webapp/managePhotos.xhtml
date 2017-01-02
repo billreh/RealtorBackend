@@ -12,8 +12,8 @@
 				<f:facet name="header">
 					Main Photo
 				</f:facet>
-			#{photoController.listing.mainPhoto}: 
-			<p:graphicImage name="#{photoController.listing.mainPhoto}" library="img/#{photoController.listing.id}"
+			#{photoController.listing.mainPhoto}:
+			<p:graphicImage name="img/#{photoController.listing.id}/#{photoController.listing.mainPhoto}"
 					style="height: 70px;" rendered="#{photoController.hasMainPhoto}"/>
 			<p:fileUpload allowTypes="/\.(gif|jpe?g|png)$/" fileUploadListener="#{photoController.mainPhotoUpload}"
 					multiple="false" update="mainPhoto messages"/>
@@ -27,7 +27,7 @@
 					#{photo.name}
 				</p:column>
 				<p:column>
-					<p:graphicImage name="#{photo.name}" library="img/#{photoController.listing.id}" style="height: 70px;"/>
+					<p:graphicImage name="img/#{photoController.listing.id}/#{photo.name}" style="height: 70px;"/>
 				</p:column>
 				<p:column>
 					<p:commandButton icon="fa fa-times" action="#{photoController.removePhoto}" update="photos messages">
