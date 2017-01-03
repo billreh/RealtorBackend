@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * The persistent class for the photo database table.
@@ -60,7 +61,35 @@ public class ExteriorFeature {
 		this.name = name;
 	}
 
-	@Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ExteriorFeature that = (ExteriorFeature) o;
+
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (listingDetail != null)
+            if(that.listingDetail == null)
+                return false;
+        if(that.listingDetail != null)
+            if(listingDetail == null)
+                return false;
+        if(listingDetail != null)
+            if(!Objects.equals(listingDetail.getId(), that.listingDetail.getId()))
+                return false;
+        return name != null ? name.equals(that.name) : that.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (listingDetail != null ? listingDetail.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "ExteriorFeature [id=" + id + ", name=" + name + "]";
 	}

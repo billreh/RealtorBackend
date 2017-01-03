@@ -6,6 +6,7 @@ import static org.mockito.Mockito.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import net.tralfamadore.ListingProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

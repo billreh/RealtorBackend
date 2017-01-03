@@ -60,7 +60,33 @@ public class Photo {
 		this.name = name;
 	}
 
-	@Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Photo photo = (Photo) o;
+
+        if (id != null ? !id.equals(photo.id) : photo.id != null) return false;
+        if (listing == null)
+            if (photo.listing != null)
+                return false;
+        if (photo.listing == null)
+            if (listing != null)
+                return false;
+        return !(listing != null && !listing.getId().equals(photo.listing.getId())) &&
+                (name != null ? name.equals(photo.name) : photo.name == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (listing != null ? listing.hashCode() : 0);
+        result = 31 * result + (name != null ? name.hashCode() : 0);
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "Photo [id=" + id + ", name=" + name + "]";
 	}

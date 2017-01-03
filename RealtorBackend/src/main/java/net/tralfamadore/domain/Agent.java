@@ -155,14 +155,22 @@ public class Agent {
 		if (listings == null) {
 			if (other.listings != null)
 				return false;
-		} else if (!listings.equals(other.listings))
+		} else if (listings.isEmpty() && other.listings.isEmpty())
+		    return true;
+        else if (!listings.equals(other.listings))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Agent [listings=" + listings.size() + ", firstName=" + firstName + ", lastName=" + lastName
-				+ ", contactNumber=" + contactNumber + ", email=" + email + "]";
+		return "Agent{" +
+				"id=" + id +
+				", listings=" + (listings == null ? 0 : listings.size()) +
+				", firstName='" + firstName + '\'' +
+				", lastName='" + lastName + '\'' +
+				", contactNumber='" + contactNumber + '\'' +
+				", email='" + email + '\'' +
+				'}';
 	}
 }

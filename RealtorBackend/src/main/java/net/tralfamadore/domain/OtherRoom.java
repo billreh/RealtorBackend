@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import java.util.Objects;
 
 /**
  * The persistent class for the photo database table.
@@ -58,6 +59,34 @@ public class OtherRoom {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		OtherRoom otherRoom = (OtherRoom) o;
+
+		if (id != null ? !id.equals(otherRoom.id) : otherRoom.id != null) return false;
+		if (listingDetail != null)
+			if(otherRoom.listingDetail == null)
+				return false;
+		if(otherRoom.listingDetail != null)
+			if(listingDetail == null)
+				return false;
+		if(listingDetail != null)
+			if(!Objects.equals(listingDetail.getId(), otherRoom.getListingDetail().getId()))
+				return false;
+		return name != null ? name.equals(otherRoom.name) : otherRoom.name == null;
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id != null ? id.hashCode() : 0;
+		result = 31 * result + (listingDetail != null ? listingDetail.hashCode() : 0);
+		result = 31 * result + (name != null ? name.hashCode() : 0);
+		return result;
 	}
 
 	@Override

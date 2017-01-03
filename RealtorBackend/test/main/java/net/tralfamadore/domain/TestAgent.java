@@ -24,7 +24,11 @@ public class TestAgent {
 	
 	@Test
 	public void testValidate() {
-		Agent agent = new Agent(null, new ArrayList<>(), "Bob", "Parker", "215-222-1212", "bparker@matrix.gs");
+		Agent agent = new Agent(null, new ArrayList<>(), "Bob", "Parker",
+				"215-222-1212", "bparker@matrix.gs");
+		Agent agent2 = new Agent(null, new ArrayList<>(), "Bob", "Parker",
+				"215-222-1212", "bparker@matrix.gs");
+		assertEquals(agent, agent2);
 		Set<ConstraintViolation<Agent>> v = validator.validate(agent);
 		assertTrue(v.isEmpty());
 		agent.setFirstName("");

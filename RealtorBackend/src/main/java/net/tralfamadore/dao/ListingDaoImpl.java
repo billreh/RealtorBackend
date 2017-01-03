@@ -38,7 +38,7 @@ public class ListingDaoImpl implements ListingDao {
 		em.persist(listing);
 		return listing.getId();
 	}
-	
+
 	@Override
 	@Transactional
 	public void updateListingDetail(ListingDetail listingDetail) {

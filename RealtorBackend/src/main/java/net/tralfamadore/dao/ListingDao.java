@@ -1,18 +1,16 @@
 package net.tralfamadore.dao;
 
-import java.util.List;
-
-import net.tralfamadore.dto.SearchDto;
-
-import net.tralfamadore.domain.FeaturedListing;
 import net.tralfamadore.domain.Listing;
 import net.tralfamadore.domain.ListingDetail;
+import net.tralfamadore.dto.SearchDto;
+
+import java.util.List;
 
 public interface ListingDao {
 
 	long saveListing(Listing listing);
 
-	void updateListingDetail(ListingDetail listingDetail);
+    void updateListingDetail(ListingDetail listingDetail);
 
 	long saveListingDetail(ListingDetail listingDetail);
 

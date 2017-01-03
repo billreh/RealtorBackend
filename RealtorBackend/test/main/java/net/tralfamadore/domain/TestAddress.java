@@ -24,6 +24,8 @@ public class TestAddress {
 	@Test
 	public void testValidate() {
 		Address address = new Address(1L, "534 Queen St", "Philadelphia", "PA", "19147");
+		Address address2 = new Address(1L, "534 Queen St", "Philadelphia", "PA", "19147");
+		assertEquals(address, address2);
 		Set<ConstraintViolation<Address>> v = validator.validate(address);
 		assertTrue(v.isEmpty());
 		address.setZipCode("123");

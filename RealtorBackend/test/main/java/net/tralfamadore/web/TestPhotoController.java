@@ -10,6 +10,7 @@ import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpServletResponse;
 
+import net.tralfamadore.ListingProvider;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

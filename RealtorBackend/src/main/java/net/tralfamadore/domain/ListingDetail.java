@@ -219,7 +219,57 @@ public class ListingDetail {
 		this.schoolDistrict = schoolDistrict;
 	}
 
-	@Override
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ListingDetail that = (ListingDetail) o;
+
+        if (fullBathrooms != that.fullBathrooms) return false;
+        if (halfBathrooms != that.halfBathrooms) return false;
+        if (diningKitchen != that.diningKitchen) return false;
+        if (diningRoom != that.diningRoom) return false;
+        if (stories != that.stories) return false;
+        if (yearBuilt != that.yearBuilt) return false;
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (listing != null ? !listing.equals(that.listing) : that.listing != null) return false;
+        if (overview != null ? !overview.equals(that.overview) : that.overview != null) return false;
+        if (masterBedroom != null ? !masterBedroom.equals(that.masterBedroom) : that.masterBedroom != null)
+            return false;
+        if (exteriorFeatures != null ? !exteriorFeatures.containsAll(that.exteriorFeatures) : that.exteriorFeatures != null)
+            return false;
+        if (otherRooms != null ? !otherRooms.containsAll(that.otherRooms) : that.otherRooms != null) return false;
+        if (exterior != null ? !exterior.equals(that.exterior) : that.exterior != null) return false;
+        if (parking != null ? !parking.equals(that.parking) : that.parking != null) return false;
+        if (status != null ? !status.equals(that.status) : that.status != null) return false;
+        return (style != null ? style.equals(that.style) : that.style == null)
+                && (schoolDistrict != null ? schoolDistrict.equals(that.schoolDistrict) : that.schoolDistrict == null);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (listing != null ? listing.hashCode() : 0);
+        result = 31 * result + (overview != null ? overview.hashCode() : 0);
+        result = 31 * result + (masterBedroom != null ? masterBedroom.hashCode() : 0);
+        result = 31 * result + fullBathrooms;
+        result = 31 * result + halfBathrooms;
+        result = 31 * result + (diningKitchen ? 1 : 0);
+        result = 31 * result + (diningRoom ? 1 : 0);
+        result = 31 * result + (exteriorFeatures != null ? exteriorFeatures.hashCode() : 0);
+        result = 31 * result + (otherRooms != null ? otherRooms.hashCode() : 0);
+        result = 31 * result + stories;
+        result = 31 * result + (exterior != null ? exterior.hashCode() : 0);
+        result = 31 * result + (parking != null ? parking.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (style != null ? style.hashCode() : 0);
+        result = 31 * result + yearBuilt;
+        result = 31 * result + (schoolDistrict != null ? schoolDistrict.hashCode() : 0);
+        return result;
+    }
+
+    @Override
 	public String toString() {
 		return "ListingDetail [id=" + id + ", listing=" + listing + ", overview=" + overview + ", masterBedroom="
 				+ masterBedroom + ", fullBathrooms=" + fullBathrooms + ", halfBathrooms=" + halfBathrooms

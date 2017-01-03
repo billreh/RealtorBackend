@@ -218,7 +218,7 @@ public class Listing {
 		if (photos == null) {
 			if (other.photos != null)
 				return false;
-		} else if (!photos.equals(other.photos)) {
+		} else if (!photos.containsAll(other.photos)) {
 			return false;
 		}
 		return price == other.price && squareFeet == other.squareFeet;
